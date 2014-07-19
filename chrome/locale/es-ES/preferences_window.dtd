@@ -1,0 +1,55 @@
+<!ENTITY prefwindow.title.JSON_DataView_window "JSON-DataView: user preferences">
+<!ENTITY prefwindow.title.JSON_DataView_pane "General Options">
+
+<!ENTITY prefwindow.label.syntax_highlighter.enabled "Highlight Syntax">
+<!ENTITY prefwindow.label.syntax_highlighter.theme "Theme">
+
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.arta "arta">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.ascetic "ascetic">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-dune.dark "atelier-dune.dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-dune.light "atelier-dune.light">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-forest.dark "atelier-forest.dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-forest.light "atelier-forest.light">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-heath.dark "atelier-heath.dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-heath.light "atelier-heath.light">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-lakeside.dark "atelier-lakeside.dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-lakeside.light "atelier-lakeside.light">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-seaside.dark "atelier-seaside.dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.atelier-seaside.light "atelier-seaside.light">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.brown_paper "brown_paper">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.codepen-embed "codepen-embed">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.color-brewer "color-brewer">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.dark "dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.default "default">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.docco "docco">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.far "far">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.foundation "foundation">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.github "github">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.googlecode "googlecode">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.hybrid "hybrid">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.idea "idea">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.ir_black "ir_black">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.kimbie.dark "kimbie.dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.kimbie.light "kimbie.light">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.magula "magula">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.mono-blue "mono-blue">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.monokai "monokai">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.monokai_sublime "monokai_sublime">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.obsidian "obsidian">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.paraiso.dark "paraiso.dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.paraiso.light "paraiso.light">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.pojoaque "pojoaque">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.railscasts "railscasts">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.rainbow "rainbow">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.school_book "school_book">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.solarized_dark "solarized_dark">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.solarized_light "solarized_light">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.sunburst "sunburst">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.tomorrow-night-blue "tomorrow-night-blue">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.tomorrow-night-bright "tomorrow-night-bright">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.tomorrow-night-eighties "tomorrow-night-eighties">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.tomorrow-night "tomorrow-night">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.tomorrow "tomorrow">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.vs "vs">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.xcode "xcode">
+<!ENTITY prefwindow.menuitem.syntax_highlighter.theme.zenburn "zenburn">

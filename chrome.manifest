@@ -1,0 +1,115 @@
+content JSON-DataView chrome/content/
+skin JSON-DataView jdvskin chrome/skin/
+resource jdvskin chrome/skin/
+
+overlay chrome://browser/content/browser.xul chrome://JSON-DataView/content/JSON-DataView.xul
+
+locale JSON-DataView ach chrome/locale/ach/
+locale JSON-DataView af chrome/locale/af/
+locale JSON-DataView an chrome/locale/an/
+locale JSON-DataView ar chrome/locale/ar/
+locale JSON-DataView as chrome/locale/as/
+locale JSON-DataView ast chrome/locale/ast/
+locale JSON-DataView be chrome/locale/be/
+locale JSON-DataView bg chrome/locale/bg/
+locale JSON-DataView bn-BD chrome/locale/bn-BD/
+locale JSON-DataView bn-IN chrome/locale/bn-IN/
+locale JSON-DataView br chrome/locale/br/
+locale JSON-DataView bs chrome/locale/bs/
+locale JSON-DataView ca chrome/locale/ca/
+locale JSON-DataView cs chrome/locale/cs/
+locale JSON-DataView csb chrome/locale/csb/
+locale JSON-DataView cy chrome/locale/cy/
+locale JSON-DataView da chrome/locale/da/
+locale JSON-DataView de chrome/locale/de/
+locale JSON-DataView el chrome/locale/el/
+locale JSON-DataView en-GB chrome/locale/en-GB/
+locale JSON-DataView en-US chrome/locale/en-US/
+locale JSON-DataView en-ZA chrome/locale/en-ZA/
+locale JSON-DataView eo chrome/locale/eo/
+locale JSON-DataView es-AR chrome/locale/es-AR/
+locale JSON-DataView es-CL chrome/locale/es-CL/
+locale JSON-DataView es-ES chrome/locale/es-ES/
+locale JSON-DataView es-MX chrome/locale/es-MX/
+locale JSON-DataView et chrome/locale/et/
+locale JSON-DataView eu chrome/locale/eu/
+locale JSON-DataView fa chrome/locale/fa/
+locale JSON-DataView ff chrome/locale/ff/
+locale JSON-DataView fi chrome/locale/fi/
+locale JSON-DataView fr chrome/locale/fr/
+locale JSON-DataView fy-NL chrome/locale/fy-NL/
+locale JSON-DataView ga-IE chrome/locale/ga-IE/
+locale JSON-DataView gd chrome/locale/gd/
+locale JSON-DataView gl chrome/locale/gl/
+locale JSON-DataView gu-IN chrome/locale/gu-IN/
+locale JSON-DataView he chrome/locale/he/
+locale JSON-DataView hi-IN chrome/locale/hi-IN/
+locale JSON-DataView hr chrome/locale/hr/
+locale JSON-DataView hu chrome/locale/hu/
+locale JSON-DataView hy-AM chrome/locale/hy-AM/
+locale JSON-DataView id chrome/locale/id/
+locale JSON-DataView is chrome/locale/is/
+locale JSON-DataView it chrome/locale/it/
+locale JSON-DataView ja chrome/locale/ja/
+locale JSON-DataView kk chrome/locale/kk/
+locale JSON-DataView km chrome/locale/km/
+locale JSON-DataView kn chrome/locale/kn/
+locale JSON-DataView ko chrome/locale/ko/
+locale JSON-DataView ku chrome/locale/ku/
+locale JSON-DataView lij chrome/locale/lij/
+locale JSON-DataView lt chrome/locale/lt/
+locale JSON-DataView lv chrome/locale/lv/
+locale JSON-DataView mai chrome/locale/mai/
+locale JSON-DataView mk chrome/locale/mk/
+locale JSON-DataView ml chrome/locale/ml/
+locale JSON-DataView mr chrome/locale/mr/
+locale JSON-DataView ms chrome/locale/ms/
+locale JSON-DataView nb-NO chrome/locale/nb-NO/
+locale JSON-DataView nl chrome/locale/nl/
+locale JSON-DataView nn-NO chrome/locale/nn-NO/
+locale JSON-DataView or chrome/locale/or/
+locale JSON-DataView pa-IN chrome/locale/pa-IN/
+locale JSON-DataView pl chrome/locale/pl/
+locale JSON-DataView pt-BR chrome/locale/pt-BR/
+locale JSON-DataView pt-PT chrome/locale/pt-PT/
+locale JSON-DataView rm chrome/locale/rm/
+locale JSON-DataView ro chrome/locale/ro/
+locale JSON-DataView ru chrome/locale/ru/
+locale JSON-DataView si chrome/locale/si/
+locale JSON-DataView sk chrome/locale/sk/
+locale JSON-DataView sl chrome/locale/sl/
+locale JSON-DataView son chrome/locale/son/
+locale JSON-DataView sq chrome/locale/sq/
+locale JSON-DataView sr chrome/locale/sr/
+locale JSON-DataView sv-SE chrome/locale/sv-SE/
+locale JSON-DataView ta chrome/locale/ta/
+locale JSON-DataView te chrome/locale/te/
+locale JSON-DataView th chrome/locale/th/
+locale JSON-DataView tr chrome/locale/tr/
+locale JSON-DataView uk chrome/locale/uk/
+locale JSON-DataView vi chrome/locale/vi/
+locale JSON-DataView xh chrome/locale/xh/
+locale JSON-DataView zh-CN chrome/locale/zh-CN/
+locale JSON-DataView zh-TW chrome/locale/zh-TW/
+locale JSON-DataView zu chrome/locale/zu/
+
+component {706e5fd4-2133-4590-afb0-790879a740db} components/app_json-to-html-stream.js
+contract @mozilla.org/streamconv;1?from=application/json&to=*/* {706e5fd4-2133-4590-afb0-790879a740db}
+
+component {14e6e9ab-afc8-4acd-95e9-416181f504cc} components/app_js-to-html-stream.js
+contract @mozilla.org/streamconv;1?from=application/javascript&to=*/* {14e6e9ab-afc8-4acd-95e9-416181f504cc}
+
+component {7498421d-6f4c-4ac5-bc0d-fd9525cb88a7} components/app_xjs-to-html-stream.js
+contract @mozilla.org/streamconv;1?from=application/x-javascript&to=*/* {7498421d-6f4c-4ac5-bc0d-fd9525cb88a7}
+
+component {08890b76-aa5d-4e0a-bb3e-17091b26285b} components/txt_json-to-html-stream.js
+contract @mozilla.org/streamconv;1?from=text/json&to=*/* {08890b76-aa5d-4e0a-bb3e-17091b26285b}
+
+component {fb38a18e-abc8-4195-8e00-bf3b50bdc403} components/txt_js-to-html-stream.js
+contract @mozilla.org/streamconv;1?from=text/javascript&to=*/* {fb38a18e-abc8-4195-8e00-bf3b50bdc403}
+
+component {7b20ad9d-f7cb-4d94-9499-7d29730abe2b} components/txt_plain-to-html-stream.js
+contract @mozilla.org/streamconv;1?from=text/plain&to=*/* {7b20ad9d-f7cb-4d94-9499-7d29730abe2b}
+
+component {82fe2e93-6591-41e8-883b-aadaf48d50c6} components/txt_xjson-to-html-stream.js
+contract @mozilla.org/streamconv;1?from=text/x-json&to=*/* {82fe2e93-6591-41e8-883b-aadaf48d50c6}
