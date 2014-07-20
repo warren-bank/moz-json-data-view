@@ -1,6 +1,10 @@
 # JSON-DataView
 Firefox add-on that displays JSON data in a collapsible tree structure with syntax highlights.
 
+## Screenshot
+
+![JSONP response in Google data feed](https://raw.githubusercontent.com/warren-bank/moz-json-data-view/screenshots/01.png)
+
 ## Summary
 
   * [jsonTreeViewer](https://github.com/summerstyle/jsonTreeViewer) served as a solid starting point for creating a DOM structure from JSON data
