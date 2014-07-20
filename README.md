@@ -12,7 +12,6 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 ## Detection methodology
 
   * the add-on modifies all server responses that satisfy all of the following criteria:
-    * the document protocol is not 'view-source:'
     * the HTTP header 'content-type' is either:
       * 'application/json'
       * 'text/json'
@@ -21,6 +20,7 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
       * 'text/javascript'
       * 'application/javascript'
       * 'application/x-javascript'
+    * the location protocol is not 'view-source:'
     * either:
       * the location pathname ends with '.json'
       * the location querystring contains 'callback=',
