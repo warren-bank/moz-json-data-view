@@ -73,7 +73,7 @@
 
 */
 
-(function() {
+var js_beautify = (function() {
 
     var acorn = {};
     (function (exports) {
@@ -1716,6 +1716,15 @@
         }
     }
 
+	/* ******************************************
+	 * note:
+		Firefox add-on validation lists this as a security warning:
+			Warning: An attempt was made to overwrite a global variable in some JavaScript code.
+				=> window.js_beautify = js_beautify;
+
+		Rather, I'll return "js_beautify".. and assign it to an in-scope variable from the outside (of the closure).
+	 * ****************************************** */
+	/*
 
     if (typeof define === "function" && define.amd) {
         // Add support for AMD ( https://github.com/amdjs/amdjs-api/wiki/AMD#defineamd-property- )
@@ -1734,4 +1743,7 @@
         global.js_beautify = js_beautify;
     }
 
-}());
+	 * ****************************************** */
+	return js_beautify;
+
+})();

@@ -109,6 +109,10 @@ var jsonTreeViewer = (function() {
 					break;
 			}
 		},
+	/* ******************************************
+	 * Firefox rejected the add-on due to the presence of this (unreachable) method
+	 * ****************************************** */
+	/*
 		add_node_from_html : function(parent, html) {
 			var div = doc.createElement('div');
 
@@ -116,6 +120,7 @@ var jsonTreeViewer = (function() {
 
 			div.outerHTML = html;
 		},
+	*/
 		inherits : (function() {
 			var F = function() {};
 
