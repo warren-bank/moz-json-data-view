@@ -15,36 +15,49 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
 ## Detection methodology
 
-  * the add-on modifies all server responses that satisfy all of the following criteria:
-    * the HTTP header 'content-type' is either:
-      * 'application/json'
-      * 'text/json'
-      * 'text/x-json'
-      * 'text/plain'
-      * 'text/javascript'
-      * 'application/javascript'
-      * 'application/x-javascript'
+  * This add-on will modify the display of all server responses (or local files) that satisfy all of the following criteria:
     * the location protocol is not 'view-source:'
     * either:
-      * the location pathname ends with '.json'
-      * the location querystring contains 'callback=',
-        and the response is structured as a JSONP callback function
-      * the location querystring contains 'JSON-DataView=json'
-
-        this gives the ability to explicitly signal to the addon that the response contains JSON data
-
-        > http://hostname/path/to/some_data.txt?JSON-DataView=json
-
-        > http://hostname/retrieve_data.php?id=some&JSON-DataView=json
+      * the HTTP header 'content-type' is one of:
+        * 'application/json'
+        * 'text/json'
+        * 'text/x-json'
+      * or both must be true:
+        * the HTTP header 'content-type' is one of:
+          * 'application/javascript'
+          * 'application/x-javascript'
+          * 'text/javascript'
+          * 'text/plain'
+        * and one of the following additional conditions are met:
+          * the location pathname ends with '.json'
+          * the location querystring contains 'callback=',
+            and the response is structured as a JSONP callback function
+          * the location querystring contains 'JSON-DataView=json'
+          * the location hash is '#JSON-DataView'
 
 ## Comments
 
   * It's become pretty standard practice for jsonp responses to contain javascript comments.
     The comments serve as a form of protection against an Adobe Flash Player exploit that uses jsonp to bypass the same-origin security policy. This [attack](https://github.com/mikispag/rosettaflash) is known as [Rosetta Flash](http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/).
 
-  * this addon will ignore both leading and trailing comments (in both `//` and `/* */` formats)
+  * This addon will ignore both leading and trailing comments (in both `//` and `/* */` formats)
     when processing the response to determine whether it contains a valid jsonp callback function.
     After the format of the response is validated, the parameter string is extracted and treated as a string of JSON data.
+
+  *	In the detection methodology, the inspection of the requested URL for an explicit trigger
+    in either the querystring or hash
+    gives the added ability to signal to the addon that the response contains JSON data.
+    This becomes extremely useful when the content-type is too generic
+    (either a misconfigured web server, poorly written backend script, or a local file read directly from disk)
+    and the pathname doesn't include the proper file extension.
+
+        > http://hostname/path/to/some_data.txt#JSON-DataView
+
+        > http://hostname/path/to/some_data.txt?JSON-DataView=json
+
+        > http://hostname/retrieve_data.php?id=some#JSON-DataView
+
+        > http://hostname/retrieve_data.php?id=some&JSON-DataView=json
 
 ## User Preferences:
 
@@ -110,23 +123,59 @@ hello_world([])
 
   * https://api.twitter.com/1.1/statuses/user_timeline.json
 
-    > * raw .json data
+    > * response contains JSON data
 
     > * 'content-type' of response === 'application/json'
 
   * http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?alt=json&v=2
 
-    > * raw .json data
+    > * response contains JSON data
 
     > * 'content-type' of response === 'application/json'
 
+  * http://headers.jsontest.com/?mime=1
+
+    > * response contains JSON data
+
+    > * 'content-type' of response === 'application/json'
+
+  * http://headers.jsontest.com/?mime=2
+
+    > * 'content-type' of response === 'application/javascript'
+
     > * __IS NOT__ acted upon by this addon, since the criteria for the detection methodology are not met
 
-  * http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?alt=json&v=2&JSON-DataView=json
+    > * any of the following methods could be used to satisfy these criteria:
 
-    > * same request/response as above with the addition of the querystring parameter: `JSON-DataView=json`
+    >   * wrap the response in a JSONP callback:
 
-    > * __IS__ acted upon by this addon and rendered properly
+    >     > http://headers.jsontest.com/?mime=2&callback=hello_world
+
+    >   * append the custom hash value:
+
+    >     > http://headers.jsontest.com/?mime=2#JSON-DataView
+
+    >   * append the custom querystring parameter:
+
+    >     > http://headers.jsontest.com/?mime=2&JSON-DataView=json
+
+  * http://headers.jsontest.com/?mime=3
+
+    > * 'content-type' of response === 'text/javascript'
+
+    > * __IS NOT__ acted upon; same work-around methods could be used (as in the earlier example)
+
+  * http://headers.jsontest.com/?mime=4
+
+    > * 'content-type' of response === 'text/html'
+
+    > * __IS NOT__ acted upon. This is an unsupported 'content-type'; there is no available work-around.
+
+  * http://headers.jsontest.com/?mime=5
+
+    > * 'content-type' of response === 'text/plain'
+
+    > * __IS NOT__ acted upon; same work-around methods could be used (as in the earlier example)
 
 ## License
   > [GPLv3](http://www.gnu.org/licenses/gpl-3.0.txt)

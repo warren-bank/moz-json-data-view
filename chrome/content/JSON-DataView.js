@@ -30,24 +30,13 @@ if (!JSON_DataView) {
 
 			if (document.location.protocol.toLowerCase() === "view-source:"){return;}
 
-			/** ---------------------------------
-			  * note:
-			  * =====
-			  * testing in the wild has proven that all content-types should be inspected for jsonp responses.
-			  * though a server should return 'javascript' for jsonp, in reality they are commonly called 'json'.
-			  * the efficiency gained by treating 'json' types as VIP.. cutting to the front of the line,
-			  * isn't worth the risk of misreading the data.
-			  *
-			  * to put this in real terms, the facebook graph api behaves this way:
-			  *    http://graph.facebook.com/coca-cola?callback=whatever
-			  * ---------------------------------
-			  */
 			switch( document.contentType.toLowerCase() ){
 				case 'application/json':
 				case 'text/json':
 				case 'text/x-json':
-			//		is_json			= true;
-			//		break;
+					// can't set it to TRUE yet; need to test that it's not actually a JSONP response.
+					is_json			= 1;
+					break;
 				case 'text/plain':
 				case 'text/javascript':
 				case 'application/javascript':
@@ -57,16 +46,6 @@ if (!JSON_DataView) {
 			}
 
 			if (is_json === false){return;}
-
-			if (is_json !== true){
-				// the location pathname ends with '.json'
-				(function(){
-					var pattern		= /\.json?$/;
-					var ok			= (pattern.test( document.location.pathname.toLowerCase() ));
-					if (ok)
-						is_json 	= true;
-				})();
-			}
 
 			if (is_json !== true){
 				// the location querystring contains 'callback=', and the response is structured as a JSONP callback function
@@ -80,11 +59,34 @@ if (!JSON_DataView) {
 				})();
 			}
 
+			// content-type is 'json', querystring doesn't indicate JSONP
+			if (is_json === 1){is_json = true;}
+
+			if (is_json !== true){
+				// the location pathname ends with '.json'
+				(function(){
+					var pattern		= /\.json?$/;
+					var ok			= (pattern.test( document.location.pathname.toLowerCase() ));
+					if (ok)
+						is_json 	= true;
+				})();
+			}
+
 			if (is_json !== true){
 				// the location querystring contains 'JSON-DataView=json'
 				(function(){
 					var pattern		= /(^|[\?&])JSON-DataView=json([&]|$)/i;
 					var ok			= (pattern.test( document.location.search ));
+					if (ok)
+						is_json 	= true;
+				})();
+			}
+
+			if (is_json !== true){
+				// the location hash begins with '#JSON-DataView'
+				(function(){
+					var pattern		= /^#?JSON-DataView/i;
+					var ok			= (pattern.test( document.location.hash ));
 					if (ok)
 						is_json 	= true;
 				})();
