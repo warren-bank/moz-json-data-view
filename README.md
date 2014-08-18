@@ -16,7 +16,14 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 ## Detection methodology
 
   * This add-on will modify the display of all server responses (or local files) that satisfy all of the following criteria:
-    * the location protocol is not 'view-source:'
+    * none of the following short-circuit conditions are true:
+      * the location protocol is 'view-source:'
+      * the location hash contains: `No-JSON-DataView`
+
+        > notes:
+        > * not case sensitive
+        > * can be combined with other hash tokens by using one of the separators: `/,`
+
     * either:
       * the HTTP header 'content-type' is one of:
         * 'application/json'
@@ -32,8 +39,7 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
           * the location pathname ends with '.json'
           * the location querystring contains 'callback=',
             and the response is structured as a JSONP callback function
-          * the location querystring contains 'JSON-DataView=json'
-          * the location hash is '#JSON-DataView'
+          * the location hash contains: `JSON-DataView`
 
 ## Comments
 
@@ -44,20 +50,54 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
     when processing the response to determine whether it contains a valid jsonp callback function.
     After the format of the response is validated, the parameter string is extracted and treated as a string of JSON data.
 
-  *	In the detection methodology, the inspection of the requested URL for an explicit trigger
-    in either the querystring or hash
-    gives the added ability to signal to the addon that the response contains JSON data.
-    This becomes extremely useful when the content-type is too generic
-    (either a misconfigured web server, poorly written backend script, or a local file read directly from disk)
-    and the pathname doesn't include the proper file extension.
+  *	In the detection methodology, the inspection of the location hash for special `control tokens`
+    provides a user the added ability to explicitly override the normal detection logic.
 
-        > http://hostname/path/to/some_data.txt#JSON-DataView
+    This can be useful in a number of different circumstances. For instance:
+      * A web server response is known to contain JSON data;
+        however, the 'content-type' headers are too generic to pass normal detection.
+        This would normally be the result of a misconfigured web server,
+        or poorly written backend script.
 
-        > http://hostname/path/to/some_data.txt?JSON-DataView=json
+        > the solution would be to manually append the `control token` that explicitly signals
+          to the add-on that it should take action: `#JSON-DataView`
 
-        > http://hostname/retrieve_data.php?id=some#JSON-DataView
+      * Another scenario (that I [recently ran into](https://github.com/warren-bank/moz-harviewer)) is when two different add-ons
+        are both triggered to take action on the same page.
 
-        > http://hostname/retrieve_data.php?id=some&JSON-DataView=json
+        JSON is a very general-purpose way to structure/serialize/transmit data.
+
+        There are many `domain specific` data formats that are defined by a JSON schema.
+        One such example is the [HTTP Archive format](http://www.softwareishard.com/blog/har-12-spec/).
+
+        If there's an add-on that specifically targets one such format,
+        then whether or not there is the potential for conflict between the two add-ons
+        running at the same time depends on the particular data format.
+        * If it has been assigned its own 'content-type' (and if servers tend to use it),
+          then there won't be any conflict.
+        * However, if this data format is sent with a generic JSON-ish 'content-type',
+          then both add-ons will most likely be trying to detect the same conditions.
+
+        This is where having the option to manually add `control tokens` is a very good thing.
+
+        Concrete example:
+        * both add-ons are installed:
+          * [JSON-DataView](https://github.com/warren-bank/moz-json-data-view)
+          * [HTTP Archive Viewer](https://github.com/warren-bank/moz-harviewer)
+        * a HAR file is requested from a server
+        * the 'content-type' of the response is: `application/json`
+        * to view the HAR data in a rich visualization tool
+          (with charts and graphs, etc) using the `HTTP Archive Viewer` add-on,
+          the following `control tokens` could be used:
+            * http://httparchive.webpagetest.org/export.php?test=140801_0_8JH&run=1&cached=0&pretty=1#HTTP-Archive-Viewer/No-JSON-DataView
+        * conversely, to take a deep dive into the raw data using the `JSON-DataView` add-on,
+          the following `control tokens` could be used:
+            * http://httparchive.webpagetest.org/export.php?test=140801_0_8JH&run=1&cached=0&pretty=1#No-HTTP-Archive-Viewer/JSON-DataView
+        * note that:
+            * order of the `control tokens` doesn't matter
+            * they are both case insensitive
+
+              > the pretty capitalization is just for the README
 
 ## User Preferences:
 
@@ -143,39 +183,50 @@ hello_world([])
 
     > * 'content-type' of response === 'application/javascript'
 
-    > * __IS NOT__ acted upon by this addon, since the criteria for the detection methodology are not met
-
-    > * any of the following methods could be used to satisfy these criteria:
-
-    >   * wrap the response in a JSONP callback:
-
-    >     > http://headers.jsontest.com/?mime=2&callback=hello_world
-
-    >   * append the custom hash value:
-
-    >     > http://headers.jsontest.com/?mime=2#JSON-DataView
-
-    >   * append the custom querystring parameter:
-
-    >     > http://headers.jsontest.com/?mime=2&JSON-DataView=json
+    > * __IS NOT__ acted upon
+        * the criteria for the detection methodology are not met
+        * any of the following methods could be used to satisfy these criteria:
+          * wrap the response in a JSONP callback <sub>(requires cooperation server-side)</sub>:<br>
+                http://headers.jsontest.com/?mime=2&callback=hello_world
+          * add a `control token` to the hash:<br>
+                http://headers.jsontest.com/?mime=2#JSON-DataView
 
   * http://headers.jsontest.com/?mime=3
 
     > * 'content-type' of response === 'text/javascript'
 
-    > * __IS NOT__ acted upon; same work-around methods could be used (as in the earlier example)
+    > * __IS NOT__ acted upon
+        * same work-around methods could be used (as in the earlier example)
 
   * http://headers.jsontest.com/?mime=4
 
     > * 'content-type' of response === 'text/html'
 
-    > * __IS NOT__ acted upon. This is an unsupported 'content-type'; there is no available work-around.
+    > * __IS NOT__ acted upon.
+        * This is an unsupported 'content-type'.
+        * My understanding of how add-ons work within the larger application is very limited.
+          Early on, I quickly worked through enough of the boilerplate framework
+          that I felt I understood what was required to hook into responses of a
+          particular 'content-type'. From that time on, all of my add-on development
+          was focused on functionality that could be applied to a chosen group of 'content-types'.
+        * Previously, I had said that there's no available work-around for this request.
+          This comment was based on my limited understanding. Actual testing has proven me wrong.
+        * I'm surprised to learn that a `control token` __CAN__ be added to the hash of this URL,
+          and the add-on will take action on the response.
+        * I'll be honest, I can't explain why the add-on is being invoked on this page.
+          However, the conclusion that we have to draw is that the add-on will be invoked on all responses.
+        * The add-on is written to short-circuit (exit immediately) unless some very specific conditions are met.
+          So this won't prove to be any kind of performance suck.
+        * It's actually a very pleasant surprise.
+          It significantly broadens the scope of when/how this add-on can be used.
+        * <sub>(If anybody with a deeper understanding of "nsIStreamConverter" components can explain what's going on here, please feel free to create an issue and share your insight. Thanks!)</sub>
 
   * http://headers.jsontest.com/?mime=5
 
     > * 'content-type' of response === 'text/plain'
 
-    > * __IS NOT__ acted upon; same work-around methods could be used (as in the earlier example)
+    > * __IS NOT__ acted upon
+        * same work-around methods could be used (as in the earlier example)
 
 ## License
   > [GPLv3](http://www.gnu.org/licenses/gpl-3.0.txt)

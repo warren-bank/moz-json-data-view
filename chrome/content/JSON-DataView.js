@@ -28,21 +28,41 @@ if (!JSON_DataView) {
 			var is_jsonp			= false;
 			var head, body, json_text;
 
-			if (document.location.protocol.toLowerCase() === "view-source:"){return;}
+			// short-circuit when: request to view page source
+			// (takes priority over invoker token in hash)
+			if (
+					(is_json !== true)
+				&&	(document.location.protocol.toLowerCase() === "view-source:")
+			){return;}
 
-			switch( document.contentType.toLowerCase() ){
-				case 'application/json':
-				case 'text/json':
-				case 'text/x-json':
-					// can't set it to TRUE yet; need to test that it's not actually a JSONP response.
-					is_json			= 1;
-					break;
-				case 'text/plain':
-				case 'text/javascript':
-				case 'application/javascript':
-				case 'application/x-javascript':
-					is_json			= 0;
-					break;
+			// short-circuit when: detect stop token in hash
+			// (takes priority over invoker token in hash)
+			if (
+					(is_json !== true)
+				&&	( /(?:^[#]?|[\/,])No-JSON-DataView(?:[\/,]|$)/i.test(document.location.hash) )
+			){return;}
+
+			// detect invoker token in hash
+			if (
+					(is_json !== true)
+				&&	( /(?:^[#]?|[\/,])JSON-DataView(?:[\/,]|$)/i.test(document.location.hash) )
+			){is_json = true;}
+
+			if (is_json !== true){
+				switch( document.contentType.toLowerCase() ){
+					case 'application/json':
+					case 'text/json':
+					case 'text/x-json':
+						// can't set it to TRUE yet; need to test that it's not actually a JSONP response.
+						is_json			= 1;
+						break;
+					case 'text/plain':
+					case 'text/javascript':
+					case 'application/javascript':
+					case 'application/x-javascript':
+						is_json			= 0;
+						break;
+				}
 			}
 
 			if (is_json === false){return;}
@@ -62,35 +82,10 @@ if (!JSON_DataView) {
 			// content-type is 'json', querystring doesn't indicate JSONP
 			if (is_json === 1){is_json = true;}
 
-			if (is_json !== true){
-				// the location pathname ends with '.json'
-				(function(){
-					var pattern		= /\.json?$/;
-					var ok			= (pattern.test( document.location.pathname.toLowerCase() ));
-					if (ok)
-						is_json 	= true;
-				})();
-			}
-
-			if (is_json !== true){
-				// the location querystring contains 'JSON-DataView=json'
-				(function(){
-					var pattern		= /(^|[\?&])JSON-DataView=json([&]|$)/i;
-					var ok			= (pattern.test( document.location.search ));
-					if (ok)
-						is_json 	= true;
-				})();
-			}
-
-			if (is_json !== true){
-				// the location hash begins with '#JSON-DataView'
-				(function(){
-					var pattern		= /^#?JSON-DataView/i;
-					var ok			= (pattern.test( document.location.hash ));
-					if (ok)
-						is_json 	= true;
-				})();
-			}
+			if (
+					(is_json !== true)
+				&&	( /\.json$/.test(document.location.pathname.toLowerCase()) )
+			){is_json = true;}
 
 			if (is_json !== true){return;}
 
