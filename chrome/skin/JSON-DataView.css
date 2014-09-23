@@ -1,16 +1,8 @@
 body,
-body pre,
-body ul#tree {
+body.hljs,
+body > pre,
+ul#tree {
 	display:	block;
-	padding:	0px !important;
-	margin:		0px !important;
-	width:		100%;
-	height:		100%;
-}
-body {
-	overflow:	hidden !important;
-}
-body pre,
-body ul#tree {
-	overflow:	auto !important;
+	padding:	0px;
+	margin:		0px;
 }

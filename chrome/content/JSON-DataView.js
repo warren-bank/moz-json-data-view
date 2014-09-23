@@ -209,6 +209,13 @@ if (!JSON_DataView) {
 								}
 							};
 
+							// "body" => ".hljs"
+							addClass(
+								false,
+								body,
+								"hljs"
+							);
+
 							// "#tree" => ".hljs"
 							addClass(
 								false,
