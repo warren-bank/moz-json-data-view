@@ -5,7 +5,8 @@
 
 <!ENTITY prefwindow.JSON_DataView.heading.syntax_highlighter "Syntax Highlights">
 
-<!ENTITY prefwindow.JSON_DataView.label.syntax_highlighter.enabled "Enabled">
+<!ENTITY prefwindow.JSON_DataView.label.syntax_highlighter.enabled "Enable">
+<!ENTITY prefwindow.JSON_DataView.label.syntax_highlighter.expand_all_nodes "Expand All Nodes">
 <!ENTITY prefwindow.JSON_DataView.label.syntax_highlighter.theme "Theme">
 
 <!ENTITY prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.arta "arta">

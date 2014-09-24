@@ -247,6 +247,11 @@ if (!JSON_DataView) {
 					// populate $code "element" with a "root" tree node
 					jsonTreeViewer.parse(json_text, $code, document);
 
+					// expand all tree nodes? (collapsed by default)
+					if ( self.prefs.getBoolPref("syntax_highlighter.expand_all_nodes") ){
+						jsonTreeViewer.expand();
+					}
+
 					// the generated DOM tree contains css classes that were colorized by jsonTreeViewer.css
 					// this color scheme is disabled, in preference for using highlight.js
 					// in order to use the (unmodified) hightlight.js color schemes,

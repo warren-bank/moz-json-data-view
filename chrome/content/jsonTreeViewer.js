@@ -427,12 +427,21 @@ var jsonTreeViewer = (function() {
 				}
 			}
 
+			if (
+					(typeof data === 'object')
+				&&	(data !== null)
+			){
+				js_obj		= data;
+			}
+
 			if (js_obj){
 				if (container_element)
 					tree.set_el(container_element);
 
 				tree.set_root(new Node(null, js_obj, 'last'));
 			}
-		}
+		},
+		expand   : tree.expand,
+		collapse : tree.collapse
 	};
 })();

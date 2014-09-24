@@ -15,6 +15,7 @@
 	<prefpane id="JSON-DataView-pane" label="&prefwindow.JSON_DataView.title.pane;">
 		<preferences>
 			<preference id="syntax_highlighter_enabled" name="extensions.JSON_DataView.syntax_highlighter.enabled" type="bool"/>
+			<preference id="syntax_highlighter_expand_all_nodes" name="extensions.JSON_DataView.syntax_highlighter.expand_all_nodes" type="bool"/>
 			<preference id="syntax_highlighter_theme" name="extensions.JSON_DataView.syntax_highlighter.theme" type="string"/>
 
 			<preference id="css_tree_font_family" name="extensions.JSON_DataView.css.tree.font_family" type="string"/>
@@ -30,6 +31,7 @@
 			<vbox align="left">
 				<separator class="thin"/>
 				<checkbox preference="syntax_highlighter_enabled" label="&prefwindow.JSON_DataView.label.syntax_highlighter.enabled;"/>
+				<checkbox preference="syntax_highlighter_expand_all_nodes" label="&prefwindow.JSON_DataView.label.syntax_highlighter.expand_all_nodes;"/>
 				<hbox align="center">
 					<label>&prefwindow.JSON_DataView.label.syntax_highlighter.theme;:</label>
 					<menulist preference="syntax_highlighter_theme">
