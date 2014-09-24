@@ -4,7 +4,9 @@
 #JSON-DataView-prefs #JSON-DataView-pane {
 	background-color:	#fff;
 	width:				350px;
+/*
 	height:				475px;
+*/
 }
 
 #JSON-DataView-prefs #JSON-DataView-pane .textbox.string {
