@@ -7,74 +7,116 @@
 <prefwindow id="JSON-DataView-prefs"
 	type="prefwindow"
 	windowtype="Browser:Preferences"
-	title="&prefwindow.title.JSON_DataView_window;"
+	title="&prefwindow.JSON_DataView.title.window;"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	>
 
-	<prefpane id="JSON-DataView-pane" label="&prefwindow.title.JSON_DataView_pane;">
+	<prefpane id="JSON-DataView-pane" label="&prefwindow.JSON_DataView.title.pane;">
 		<preferences>
 			<preference id="syntax_highlighter_enabled" name="extensions.JSON_DataView.syntax_highlighter.enabled" type="bool"/>
 			<preference id="syntax_highlighter_theme" name="extensions.JSON_DataView.syntax_highlighter.theme" type="string"/>
+
+			<preference id="css_tree_font_family" name="extensions.JSON_DataView.css.tree.font_family" type="string"/>
+			<preference id="css_tree_font_size" name="extensions.JSON_DataView.css.tree.font_size" type="int"/>
+			<preference id="css_tree_line_height" name="extensions.JSON_DataView.css.tree.line_height" type="int"/>
+			<preference id="css_tree_padding" name="extensions.JSON_DataView.css.tree.padding" type="int"/>
+			<preference id="css_subtree_white_space_indentation" name="extensions.JSON_DataView.css.subtree.white_space_indentation" type="int"/>
 		</preferences>
 
-		<checkbox preference="syntax_highlighter_enabled" label="&prefwindow.label.syntax_highlighter.enabled;"/>
-		<hbox align="center">
-			<label value="&prefwindow.label.syntax_highlighter.theme;: "/>
-			<menulist preference="syntax_highlighter_theme">
-				<menupopup>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.arta;" value="arta"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.ascetic;" value="ascetic"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-dune.dark;" value="atelier-dune.dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-dune.light;" value="atelier-dune.light"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-forest.dark;" value="atelier-forest.dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-forest.light;" value="atelier-forest.light"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-heath.dark;" value="atelier-heath.dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-heath.light;" value="atelier-heath.light"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-lakeside.dark;" value="atelier-lakeside.dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-lakeside.light;" value="atelier-lakeside.light"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-seaside.dark;" value="atelier-seaside.dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.atelier-seaside.light;" value="atelier-seaside.light"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.brown_paper;" value="brown_paper"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.codepen-embed;" value="codepen-embed"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.color-brewer;" value="color-brewer"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.dark;" value="dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.default;" value="default"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.docco;" value="docco"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.far;" value="far"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.foundation;" value="foundation"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.github;" value="github"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.googlecode;" value="googlecode"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.hybrid;" value="hybrid"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.idea;" value="idea"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.ir_black;" value="ir_black"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.kimbie.dark;" value="kimbie.dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.kimbie.light;" value="kimbie.light"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.magula;" value="magula"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.mono-blue;" value="mono-blue"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.monokai;" value="monokai"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.monokai_sublime;" value="monokai_sublime"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.obsidian;" value="obsidian"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.paraiso.dark;" value="paraiso.dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.paraiso.light;" value="paraiso.light"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.pojoaque;" value="pojoaque"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.railscasts;" value="railscasts"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.rainbow;" value="rainbow"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.school_book;" value="school_book"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.solarized_dark;" value="solarized_dark"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.solarized_light;" value="solarized_light"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.sunburst;" value="sunburst"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.tomorrow-night-blue;" value="tomorrow-night-blue"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.tomorrow-night-bright;" value="tomorrow-night-bright"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.tomorrow-night-eighties;" value="tomorrow-night-eighties"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.tomorrow-night;" value="tomorrow-night"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.tomorrow;" value="tomorrow"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.vs;" value="vs"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.xcode;" value="xcode"/>
-					<menuitem label="&prefwindow.menuitem.syntax_highlighter.theme.zenburn;" value="zenburn"/>
-				</menupopup>
-			</menulist>
-		</hbox>
+		<groupbox>
+			<caption label="&prefwindow.JSON_DataView.heading.syntax_highlighter;"/>
+
+			<vbox align="left">
+				<separator class="thin"/>
+				<checkbox preference="syntax_highlighter_enabled" label="&prefwindow.JSON_DataView.label.syntax_highlighter.enabled;"/>
+				<hbox align="center">
+					<label>&prefwindow.JSON_DataView.label.syntax_highlighter.theme;:</label>
+					<menulist preference="syntax_highlighter_theme">
+						<menupopup>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.arta;" value="arta"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.ascetic;" value="ascetic"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-dune.dark;" value="atelier-dune.dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-dune.light;" value="atelier-dune.light"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-forest.dark;" value="atelier-forest.dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-forest.light;" value="atelier-forest.light"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-heath.dark;" value="atelier-heath.dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-heath.light;" value="atelier-heath.light"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-lakeside.dark;" value="atelier-lakeside.dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-lakeside.light;" value="atelier-lakeside.light"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-seaside.dark;" value="atelier-seaside.dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.atelier-seaside.light;" value="atelier-seaside.light"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.brown_paper;" value="brown_paper"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.codepen-embed;" value="codepen-embed"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.color-brewer;" value="color-brewer"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.dark;" value="dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.default;" value="default"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.docco;" value="docco"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.far;" value="far"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.foundation;" value="foundation"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.github;" value="github"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.googlecode;" value="googlecode"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.hybrid;" value="hybrid"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.idea;" value="idea"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.ir_black;" value="ir_black"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.kimbie.dark;" value="kimbie.dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.kimbie.light;" value="kimbie.light"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.magula;" value="magula"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.mono-blue;" value="mono-blue"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.monokai;" value="monokai"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.monokai_sublime;" value="monokai_sublime"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.obsidian;" value="obsidian"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.paraiso.dark;" value="paraiso.dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.paraiso.light;" value="paraiso.light"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.pojoaque;" value="pojoaque"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.railscasts;" value="railscasts"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.rainbow;" value="rainbow"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.school_book;" value="school_book"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.solarized_dark;" value="solarized_dark"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.solarized_light;" value="solarized_light"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.sunburst;" value="sunburst"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.tomorrow-night-blue;" value="tomorrow-night-blue"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.tomorrow-night-bright;" value="tomorrow-night-bright"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.tomorrow-night-eighties;" value="tomorrow-night-eighties"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.tomorrow-night;" value="tomorrow-night"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.tomorrow;" value="tomorrow"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.vs;" value="vs"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.xcode;" value="xcode"/>
+							<menuitem label="&prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.zenburn;" value="zenburn"/>
+						</menupopup>
+					</menulist>
+				</hbox>
+			</vbox>
+		</groupbox>
+
+		<separator class="groove"/>
+
+		<groupbox>
+			<caption label="&prefwindow.JSON_DataView.heading.display_options;"/>
+
+			<vbox align="left">
+				<separator class="thin"/>
+				<label>&prefwindow.JSON_DataView.label.display_options.tree.font_family;:</label>
+				<textbox class="textbox string" preference="css_tree_font_family" />
+
+				<separator class="thin"/>
+				<label>&prefwindow.JSON_DataView.label.display_options.tree.font_size;:</label>
+				<textbox class="textbox number" preference="css_tree_font_size" type="number" min="4" max="40" decimalplaces="0" hidespinbuttons="false" />
+
+				<separator class="thin"/>
+				<label>&prefwindow.JSON_DataView.label.display_options.tree.line_height;:</label>
+				<textbox class="textbox number" preference="css_tree_line_height" type="number" min="1" max="4" decimalplaces="0" hidespinbuttons="false" />
+
+				<separator class="thin"/>
+				<label>&prefwindow.JSON_DataView.label.display_options.tree.padding;:</label>
+				<textbox class="textbox number" preference="css_tree_padding" type="number" min="0" max="10" decimalplaces="0" hidespinbuttons="false" />
+
+				<separator class="thin"/>
+				<label>&prefwindow.JSON_DataView.label.display_options.subtree.white_space_indentation;:</label>
+				<label><span class="note">(&prefwindow.JSON_DataView.note.display_options.subtree.white_space_indentation;)</span></label>
+				<textbox class="textbox number" preference="css_subtree_white_space_indentation" type="number" min="0" max="10" decimalplaces="0" hidespinbuttons="false" />
+			</vbox>
+		</groupbox>
 
 	</prefpane>
 

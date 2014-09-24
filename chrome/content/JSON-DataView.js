@@ -1,3 +1,25 @@
+/*
+ * --------------------------------------------------------
+ * script
+ *     name:    JSON-DataView
+ *     summary: Firefox add-on that displays JSON data in a collapsible tree structure with syntax highlights.
+ *     url:     https://github.com/warren-bank/moz-json-data-view
+ * author
+ *     name:    Warren R Bank
+ *     email:   warren.r.bank@gmail.com
+ *     url:     https://github.com/warren-bank
+ * copyright
+ *     notice:  Copyright (c) 2014, Warren Bank
+ * contributors
+ *            - JSON Tree Viewer
+ *              http://github.com/summerstyle/jsonTreeViewer
+ *              Copyright (c) 2014, Vera Lobacheva (summerstyle.ru)
+ * license
+ *     name:    GPLv3
+ *     url:     http://www.gnu.org/licenses/gpl-3.0.txt
+ * --------------------------------------------------------
+ */
+
 window.addEventListener('load', function load(event) {
 	window.removeEventListener('load', load, false);
 	JSON_DataView.init();
@@ -170,6 +192,44 @@ if (!JSON_DataView) {
 						"type"		: "text/css",
 						"href"		: ("resource://jdvskin/highlight_styles/" + highlight.theme.toLowerCase() + ".css"),
 						"condition"	: (highlight.enabled)
+					},
+					"style_01": {
+						"rel"		: "stylesheet",
+						"type"		: "text/css",
+						"condition"	: (highlight.enabled),
+						"text"		: (
+										(function(){
+											var css="", pref;
+											if (! highlight.enabled){return css;}
+
+											css += "ul#tree {";
+											// ====================================================
+											pref = self.prefs.getCharPref("css.tree.font_family");
+											if (pref){
+												css += "font-family:" +pref+ ";";
+											}
+
+											pref = self.prefs.getIntPref("css.tree.font_size");
+											css += "font-size:" +pref+ "px;";
+
+											pref = self.prefs.getIntPref("css.tree.line_height");
+											css += "line-height:" +pref+ "em;";
+
+											pref = self.prefs.getIntPref("css.tree.padding");
+											css += "padding:" +pref+ "em;";
+											// ====================================================
+											css += "}";
+
+											css += "ul#tree ul {";
+											// ====================================================
+											pref = self.prefs.getIntPref("css.subtree.white_space_indentation");
+											css += "margin-left:" +(pref + 1.5)+ "em;";
+											// ====================================================
+											css += "}";
+
+											return css;
+										})()
+									  )
 					}
 				}, head, document);
 

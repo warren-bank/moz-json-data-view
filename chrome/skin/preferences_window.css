@@ -1,8 +1,27 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
 #JSON-DataView-prefs,
-#JSON-DataView-pane {
+#JSON-DataView-prefs #JSON-DataView-pane {
 	background-color:	#fff;
-	height:				150px;
+	width:				350px;
+	height:				475px;
+}
+
+#JSON-DataView-prefs #JSON-DataView-pane .textbox.string {
+	width:				300px;
+}
+#JSON-DataView-prefs #JSON-DataView-pane .textbox.number {
+	width:				100px;
+}
+#JSON-DataView-prefs #JSON-DataView-pane .textbox.number,
+#JSON-DataView-prefs #JSON-DataView-pane .numberbox-input-box {
+	padding-right:		4px;
+}
+#JSON-DataView-prefs #JSON-DataView-pane .note {
+	font-size:			0.85em;
+	font-style:			italic;
+}
+#JSON-DataView-prefs #JSON-DataView-pane label .note {
+	display:			block;
 	width:				300px;
 }
