@@ -131,6 +131,24 @@ if (!JSON_DataView) {
 						result		= result.replace(/\s+$/,'');			// trim right
 						result		= result.replace(/^\/\*.*?\*\/\s*/,'');	// trim left comment block
 						result		= result.replace(/\s*\/\*.*?\*\/$/,'');	// trim right comment block
+
+						var ltrim_pattern = function(str){
+							var pattern	= new RegExp('^' + str);
+							if (pattern.test( result )){
+								result	= result.replace(pattern, '');
+							}
+						};
+
+						// add support for ExpressJS jsonp callback response format(s)
+						//   - legacy
+						//        cb && cb(json)
+						//   - commit #e218377, Oct/15/2013
+						//        typeof cb === 'function' && cb(json);
+						//   - commit #f684a64, Jul/10/2014
+						//        /**/ typeof cb === 'function' && cb(json);
+						ltrim_pattern('typeof\\s+' + is_jsonp + '\\s+===\\s+([\'"])function\\1\\s+&&\\s+');
+						ltrim_pattern(is_jsonp + '\\s+&&\\s+');
+
 						return result;
 					};
 
