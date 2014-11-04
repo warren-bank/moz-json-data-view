@@ -13,6 +13,8 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
   * [highlight.js](https://github.com/isagalaev/highlight.js) is used to provide syntax highlighting to the DOM structure
 
+  * [beautify.js](https://github.com/beautify-web/js-beautify/blob/master/js/lib/beautify.js) is used to add whitespace for readability when syntax highlighting is turned off.
+
 ## Detection methodology
 
   * This add-on will modify the display of all server responses (or local files) that satisfy all of the following criteria:
@@ -46,9 +48,14 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
   * It's become pretty standard practice for jsonp responses to contain javascript comments.
     The comments serve as a form of protection against an Adobe Flash Player exploit that uses jsonp to bypass the same-origin security policy. This [attack](https://github.com/mikispag/rosettaflash) is known as [Rosetta Flash](http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/).
 
-  * This addon will ignore both leading and trailing comments (in both `//` and `/* */` formats)
-    when processing the response to determine whether it contains a valid jsonp callback function.
-    After the format of the response is validated, the parameter string is extracted and treated as a string of JSON data.
+  * When processing the response to determine whether it contains a valid jsonp callback function,
+    the following javascript statements will be ignored:
+    * leading and trailing comments (in both `//` and `/* */` formats)
+    * leading validation of the callback function, using any of the patterns:
+      * cb && cb(json)
+      * typeof cb === 'function' && cb(json)
+
+    After the format of the response is validated, the parameter string is extracted from the callback function and treated as a string of JSON data.
 
   *	In the detection methodology, the inspection of the location hash for special `control tokens`
     provides a user the added ability to explicitly override the normal detection logic.
@@ -104,13 +111,59 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
   * syntax highlighting:
     * on/off toggle
 
+      on: Builds an HTML DOM structure that supports presenting the data within a collapsible tree.<br>
+      off: Filters the JSON data through `js-beautify`, and outputs into a `<pre>` DOM element.
+
       > default: on
+
+    * expand all nodes
+
+      initialize all collapsible tree nodes to an expanded state (during page load)?
+
+      > default: false
 
     * choice of color scheme
 
       options consist of those provided by [highlight.js](https://github.com/isagalaev/highlight.js/tree/master/src/styles)
 
       > default: 'solarized_dark'
+
+  * css customizations:
+    * font-family
+
+      the (internal) stylesheet assigns a default value.<br>
+      this preference is optional;<br>
+      if assigned a value, it will override the stylesheet.
+
+      > default: ''
+
+    * font-size
+
+      units: px
+
+      > default: '13'
+
+    * line-height
+
+      units: em
+
+      > default: '2'
+
+    * padding around the `<body>`
+
+      units: em
+
+      > default: '1'
+
+    * width of indentation for expanded children
+
+      units: em
+
+      > default: '1'
+
+      > **NOTE:**<br>
+      > 1.5em is ADDED to the value specified through this setting.<br>
+      > This is the width required to ensure the expand/collapse button can be properly displayed.
 
 ## Examples
 
