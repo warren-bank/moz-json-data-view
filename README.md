@@ -13,7 +13,7 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
   * [highlight.js](https://github.com/isagalaev/highlight.js) is used to provide syntax highlighting to the DOM structure
 
-  * [beautify.js](https://github.com/beautify-web/js-beautify/blob/master/js/lib/beautify.js) is used to add whitespace for readability when syntax highlighting is turned off.
+  * [js-beautify](https://github.com/beautify-web/js-beautify) is used to add whitespace for readability when syntax highlighting is turned off
 
 ## Detection methodology
 
@@ -52,8 +52,8 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
     the following javascript statements will be ignored:
     * leading and trailing comments (in both `//` and `/* */` formats)
     * leading validation of the callback function, using any of the patterns:
-      * cb && cb(json)
-      * typeof cb === 'function' && cb(json)
+      * `cb && cb(json)`
+      * `typeof cb === 'function' && cb(json)`
 
     After the format of the response is validated, the parameter string is extracted from the callback function and treated as a string of JSON data.
 
@@ -141,25 +141,25 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
       units: px
 
-      > default: '13'
+      > default: 13
 
     * line-height
 
       units: em
 
-      > default: '2'
+      > default: 2
 
     * padding around the `<body>`
 
       units: em
 
-      > default: '1'
+      > default: 1
 
     * width of indentation for expanded children
 
       units: em
 
-      > default: '1'
+      > default: 1
 
       > **NOTE:**<br>
       > 1.5em is ADDED to the value specified through this setting.<br>
@@ -181,9 +181,9 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
     > * format of response content:
 
-```javascript
+    >   ```javascript
 /**/ hello_world({});
-```
+        ```
 
   * http://www.google.com/calendar/feeds/developer-calendar@google.com/public/full?alt=json&callback=hello_world
 
@@ -195,10 +195,10 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
     > * format of response content:
 
-```javascript
+    >   ```javascript
 // API callback
 hello_world({});
-```
+        ```
 
   * http://feeds.delicious.com/v2/json/popular?callback=hello_world
 
@@ -210,9 +210,9 @@ hello_world({});
 
     > * format of response content:
 
-```javascript
+    >   ```javascript
 hello_world([])
-```
+        ```
 
   * https://api.twitter.com/1.1/statuses/user_timeline.json
 
@@ -255,24 +255,14 @@ hello_world([])
 
     > * 'content-type' of response === 'text/html'
 
-    > * __IS NOT__ acted upon.
-        * This is an unsupported 'content-type'.
-        * My understanding of how add-ons work within the larger application is very limited.
-          Early on, I quickly worked through enough of the boilerplate framework
-          that I felt I understood what was required to hook into responses of a
-          particular 'content-type'. From that time on, all of my add-on development
-          was focused on functionality that could be applied to a chosen group of 'content-types'.
-        * Previously, I had said that there's no available work-around for this request.
-          This comment was based on my limited understanding. Actual testing has proven me wrong.
-        * I'm surprised to learn that a `control token` __CAN__ be added to the hash of this URL,
-          and the add-on will take action on the response.
-        * I'll be honest, I can't explain why the add-on is being invoked on this page.
-          However, the conclusion that we have to draw is that the add-on will be invoked on all responses.
-        * The add-on is written to short-circuit (exit immediately) unless some very specific conditions are met.
-          So this won't prove to be any kind of performance suck.
-        * It's actually a very pleasant surprise.
-          It significantly broadens the scope of when/how this add-on can be used.
-        * <sub>(If anybody with a deeper understanding of "nsIStreamConverter" components can explain what's going on here, please feel free to create an issue and share your insight. Thanks!)</sub>
+    > * __IS NOT__ acted upon
+        * Anecdotally, it appears that this 'content-type' is a special case.
+        * Under normal circumstances, an add-on is required to register itself to "convert streams" from the incoming 'content-type' values upon which it wishes to act. These "streams" are then (conditionally) "converted" into a 'text/html' request.
+        * It's unclear to me whether the internal logic used by the plugin architecture is that add-ons are invoked only on 'text/html' streams; and that this "stream conversion" API is a methodology by which to allow other streams to enter the workflow.
+        * All that I can say for certain is that the detection methodology doesn't specifically register this add-on to listen for 'text/html' streams, and yet it is invoked during their page-load processing.
+        * This being the case, one of the two aforementioned work-around methods would work:
+          * the presence of a `control token` [in the hash](http://headers.jsontest.com/?mime=4#JSON-DataView) will be seen and obeyed
+          * otherwise, the 'content-type' will fail to match a valid value and the add-on will short-circuit (exit immediately) before the querystring would normally be inspected for [a jsonp signature](http://headers.jsontest.com/?mime=4&callback=hello_world)
 
   * http://headers.jsontest.com/?mime=5
 
