@@ -18,6 +18,9 @@
 			<preference id="syntax_highlighter_expand_all_nodes" name="extensions.JSON_DataView.syntax_highlighter.expand_all_nodes" type="bool"/>
 			<preference id="syntax_highlighter_theme" name="extensions.JSON_DataView.syntax_highlighter.theme" type="string"/>
 
+			<preference id="optional_features_big_number" name="extensions.JSON_DataView.optional_features.BigNumber" type="bool"/>
+			<preference id="optional_features_debug_parser_errors" name="extensions.JSON_DataView.optional_features.debug_parser_errors" type="bool"/>
+
 			<preference id="css_tree_font_family" name="extensions.JSON_DataView.css.tree.font_family" type="string"/>
 			<preference id="css_tree_font_size" name="extensions.JSON_DataView.css.tree.font_size" type="int"/>
 			<preference id="css_tree_line_height" name="extensions.JSON_DataView.css.tree.line_height" type="int"/>
@@ -88,6 +91,18 @@
 						</menupopup>
 					</menulist>
 				</hbox>
+			</vbox>
+		</groupbox>
+
+		<separator class="groove"/>
+
+		<groupbox>
+			<caption label="&prefwindow.JSON_DataView.heading.optional_features;"/>
+
+			<vbox align="left">
+				<separator class="thin"/>
+				<checkbox preference="optional_features_big_number" label="&prefwindow.JSON_DataView.label.optional_features.big_number;"/>
+				<checkbox preference="optional_features_debug_parser_errors" label="&prefwindow.JSON_DataView.label.optional_features.debug_parser_errors;"/>
 			</vbox>
 		</groupbox>
 

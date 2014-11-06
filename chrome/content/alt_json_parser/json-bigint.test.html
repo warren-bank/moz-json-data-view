@@ -1,0 +1,113 @@
+<html>
+<head>
+<script type="text/javascript" src="json-bigint.js"></script>
+<script type="text/javascript">
+var examples = [];
+
+examples.push(function(){
+	var JSONbig = new json_bigint();
+
+	var json = '{ "value" : 9223372036854775807, "v2": 123 }';
+	console.log('Input:', json);
+
+	console.log('\n');
+	console.log('native bult-in JSON:')
+	var r = JSON.parse(json);
+	console.log('JSON.parse(input).value : ', r.value.toString());
+
+	console.log('\n');
+	console.log('big number JSON:');
+	var r1 = JSONbig.parse(json);
+	console.log('JSON.parse(input).value : ', r1.value.toString());
+});
+
+examples.push(function(){
+	var JSONbig = new json_bigint();
+	var JSONstrict = new json_bigint({"strict": true});
+
+	console.log('Duplicate Key test with both lenient and strict JSON parsing');
+
+	var dupkeys = '{ "dupkey": "value 1", "dupkey": "value 2"}';
+	console.log('\n');
+	console.log('Input:', dupkeys);
+
+	var works = JSONbig.parse(dupkeys);
+	console.log('\n');
+	console.log('JSON.parse(dupkeys).dupkey: %s', works.dupkey);
+
+	console.log('\n');
+	var fails = "will stay like this";
+	try {
+		fails = JSONstrict.parse(dupkeys);
+		console.log('ERROR!! Should never get here');
+	} catch (e) {
+		console.log('Succesfully catched expected exception on duplicate keys: %j', e);
+	}
+});
+
+examples.push(function(){
+	var foo;
+
+	foo = new BigNumber('9223372036854775807');
+	console.log( foo.toString() );
+
+	console.log('\n');
+	console.log( typeof foo );
+	console.log( Object.prototype.toString.call(foo) );
+
+	console.log('\n');
+	console.log( foo.constructor === BigNumber );
+	console.log( foo.constructor.name );
+});
+
+examples.push(function(){
+	var foo;
+
+	foo = {a:5,b:"a"};
+	console.log( foo.constructor === Object );
+	console.log( foo.constructor.name );
+
+	foo = [1,2,3];
+	console.log('\n');
+	console.log( foo.constructor === Array );
+	console.log( foo.constructor.name );
+});
+
+examples.forEach(function(example, index){
+	console.log('-------------------------------------------------------------------------------');
+	console.log('output of example #' + (index+1) + ':');
+	console.log('\n');
+	example();
+});
+	console.log('-------------------------------------------------------------------------------');
+
+</script>
+</head>
+<body>
+
+<pre>
+-------------------------------------------------------------------------------
+output of example #1:
+
+Input: { "value" : 9223372036854775807, "v2": 123 }
+
+native bult-in JSON:
+JSON.parse(input).value : 9223372036854776000
+
+big number JSON:
+JSON.parse(input).value : 9223372036854775807
+-------------------------------------------------------------------------------
+output of example #2:
+
+Duplicate Key test with both lenient and strict JSON parsing
+
+Input: { "dupkey": "value 1", "dupkey": "value 2"}
+
+JSON.parse(dupkeys).dupkey: value 2
+
+Succesfully catched expected exception on duplicate keys: Object { name="SyntaxError", message="Duplicate key "dupkey"", at=33, more...}
+-------------------------------------------------------------------------------
+</pre>
+
+</body>
+</html>

@@ -59,6 +59,13 @@
 <!ENTITY prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.xcode "xcode">
 <!ENTITY prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.zenburn "zenburn">
 
+<!-- ==================== "optional_features" ================================ -->
+
+<!ENTITY prefwindow.JSON_DataView.heading.optional_features "Optional Features">
+
+<!ENTITY prefwindow.JSON_DataView.label.optional_features.big_number "Use non-native JSON parser to support numbers that are too large to represent using primitive JavaScript data types">
+<!ENTITY prefwindow.JSON_DataView.label.optional_features.debug_parser_errors "Display JSON syntax error when encountered by the JSON parser">
+
 <!-- ==================== "display_options" =================================== -->
 
 <!ENTITY prefwindow.JSON_DataView.heading.display_options "Display Options">

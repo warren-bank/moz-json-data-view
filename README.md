@@ -128,6 +128,15 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
       > default: 'solarized_dark'
 
+  * optional features:
+    * use non-native JSON parser to support numbers that are too large to represent using primitive JavaScript data types
+
+      > default: true
+
+    * display JSON syntax error when encountered by the JSON parser
+
+      > default: true
+
   * css customizations:
     * font-family
 

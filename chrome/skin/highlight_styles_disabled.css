@@ -9,3 +9,21 @@ body pre {
 	white-space:		pre;
 	word-wrap:			normal;
 }
+body div.parser_error {
+	margin:				35px 15px;
+	border:				1px solid #ff0000;
+	padding:			10px;
+	color:				#333;
+	font-family:		arial,helvetics,sans-serif;
+	font-size:			14px;
+	line-height:		16px;
+}
+body div.parser_error::before {
+	display:			block;
+	color:				#ff0000;
+	font-weight:		bold;
+	padding-bottom:		1px;
+	border-bottom:		1px dashed #ff0000;
+	content:			'JSON Syntax Error: ';
+	margin-bottom:		10px;
+}

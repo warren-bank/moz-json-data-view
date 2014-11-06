@@ -3,6 +3,7 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/x-javascript" src="chrome://JSON-DataView/content/beautify.js"></script>
 	<script type="application/x-javascript" src="chrome://JSON-DataView/content/$C.js"></script>
+	<script type="application/x-javascript" src="chrome://JSON-DataView/content/alt_json_parser/json-bigint.js"></script>
 	<script type="application/x-javascript" src="chrome://JSON-DataView/content/jsonTreeViewer.js"></script>
 	<script type="application/x-javascript" src="chrome://JSON-DataView/content/JSON-DataView.js"></script>
 </overlay>

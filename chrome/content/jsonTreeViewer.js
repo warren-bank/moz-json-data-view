@@ -15,6 +15,9 @@ var jsonTreeViewer = (function() {
 
 	/* Utilities */
 	var utils = {
+	/* unused and unreachable */
+	/*
+
 		id : function (str) {
 			return doc.getElementById(str);
 		},
@@ -28,12 +31,29 @@ var jsonTreeViewer = (function() {
 
 			return this;
 		},
-		/* JSON data types */
+		add_node_from_html : function(parent, html) {
+			var div = doc.createElement('div');
+
+			parent.appendChild(div);
+
+			div.outerHTML = html;
+		},
+
+		//JSON data types
 		is_string : function(x) {
 			return typeof x === 'string';
 		},
 		is_number : function(x) {
 			return typeof x === 'number';
+		},
+		is_big_number : function(x) {
+			return (
+					(typeof x === 'object') &&
+					(x !== null) &&
+					(typeof x.constructor === 'function') &&
+					(typeof x.constructor.name === 'string') &&
+					(x.constructor.name === 'BigNumber')
+			);
 		},
 		is_boolean : function(x) {
 			return typeof x === 'boolean';
@@ -47,6 +67,9 @@ var jsonTreeViewer = (function() {
 		is_object : function(x) {
 			return Object.prototype.toString.call(x) === "[object Object]";
 		},
+
+	*/
+
 		get_type : function(x) {
 			if (x === null) {
 				return 'null';
@@ -61,6 +84,16 @@ var jsonTreeViewer = (function() {
 
 				case 'boolean':
 					return 'boolean';
+
+				case 'object':
+					if (
+						(typeof x.constructor === 'function') &&
+						(typeof x.constructor.name === 'string') &&
+						(x.constructor.name === 'BigNumber')
+					){
+						return 'big_number';
+					}
+					break;
 			};
 
 			switch(Object.prototype.toString.call(x)) {
@@ -109,18 +142,6 @@ var jsonTreeViewer = (function() {
 					break;
 			}
 		},
-	/* ******************************************
-	 * Firefox rejected the add-on due to the presence of this (unreachable) method
-	 * ****************************************** */
-	/*
-		add_node_from_html : function(parent, html) {
-			var div = doc.createElement('div');
-
-			parent.appendChild(div);
-
-			div.outerHTML = html;
-		},
-	*/
 		inherits : (function() {
 			var F = function() {};
 
@@ -142,6 +163,9 @@ var jsonTreeViewer = (function() {
 
 			case 'number':
 				return new Node_number(name, node, is_last);
+
+			case 'big_number':
+				return new Node_number(name, node.toString(), is_last);
 
 			case 'string':
 				return new Node_string(name, node, is_last);

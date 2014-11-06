@@ -48,7 +48,8 @@ if (!JSON_DataView) {
 			var document			= aEvent.originalTarget;
 			var is_json				= false;
 			var is_jsonp			= false;
-			var head, body, json_text;
+			var head, body, json_text, parsed_json_data, $parser_syntax_error;
+			var highlight, optional_features;
 
 			// short-circuit when: request to view page source
 			// (takes priority over invoker token in hash)
@@ -115,6 +116,9 @@ if (!JSON_DataView) {
 			body					= document.body;
 			json_text				= body.textContent;
 
+			// sanity check
+			if (! json_text){return;}
+
 			if (is_jsonp){
 				// confirm that the response is structured as a JSONP callback function
 				(function(){
@@ -165,6 +169,189 @@ if (!JSON_DataView) {
 				if (is_json !== true){return;}
 			}
 
+			highlight				= {
+				"enabled"				: self.prefs.getBoolPref("syntax_highlighter.enabled"),
+				"theme"					: self.prefs.getCharPref("syntax_highlighter.theme")
+			};
+			highlight.enabled		= (highlight.enabled && highlight.theme);
+
+			optional_features		= {
+				"BigNumber"				: self.prefs.getBoolPref("optional_features.BigNumber"),
+				"debug_parser_errors"	: self.prefs.getBoolPref("optional_features.debug_parser_errors")
+			};
+
+			if (highlight.enabled){
+				(function(){
+					// parse the string of JSON into a javascript data object
+					//  * native parser:
+					//        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
+					//        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError
+					//  * alternative parser:
+					//        https://github.com/sidorares/json-bigint
+					//        https://github.com/MikeMcl/bignumber.js
+					//    fix to issue #4: "maximum integer (double-precision 64-bit) value that can be parsed from string format (ie: JSON)"
+					//        https://github.com/warren-bank/moz-json-data-view/issues/4
+					try {
+						parsed_json_data			= (optional_features.BigNumber)? json_bigint.parse(json_text) : JSON.parse(json_text);
+
+						// sanity check
+						if (! parsed_json_data){
+							is_json					= false;
+						}
+					}
+					catch(e){
+						//  * native parser:
+						//        `e.name`			: 'SyntaxError'
+						//        `e.message`		: A description of what went wrong
+						//        `e.lineNumber`	: Line number of the code that raised this error
+						//        `e.columnNumber`	: Column number in line that raised this error
+						//  * json-bigint:
+						//        `e.name`			: 'SyntaxError'
+						//        `e.message`		: A description of what went wrong
+						//        `e.text`			: The original string of JSON
+						//        `e.at`			: The index of the current character
+						//					ex: =>		var ch = e.text.charAt(e.at)
+
+						if (optional_features.debug_parser_errors){
+							$parser_syntax_error	= (function(){
+								var pre, post, $error;
+
+								if (optional_features.BigNumber){
+									// sanity check
+									if (typeof e.at === 'number'){
+										pre			= e.text.substring(0, e.at);
+										post		= e.text.substring(e.at);
+									}
+								}
+
+								else {
+									// thrown by the native JSON parser
+
+									(function(){
+										var process_multi_line_input;
+
+										process_multi_line_input = function(columnNumber, lineNumber){
+											// sanity check
+											if (typeof columnNumber !== 'number'){return;}
+											if (columnNumber < 0){columnNumber = 0;}
+
+											if (typeof lineNumber === 'number'){
+												if (lineNumber <= 0){lineNumber = undefined;}
+											}
+
+											if (typeof lineNumber === 'number'){
+												(function(){
+													var lines, tmp, i;
+													lines	= json_text.split(/\r?\n/);
+
+													// sanity check
+													if (lines.length < lineNumber){return;}
+
+													tmp		= {
+														"pre" 	: [],
+														"post"	: []
+													};
+
+													for (i=0; i<lines.length; i++){
+														if (i < lineNumber){
+															tmp.pre.push( lines[i] );
+														}
+														else if (i > lineNumber){
+															tmp.post.push( lines[i] );
+														}
+														else {
+															tmp.pre.push( lines[i].substring(0, columnNumber) );
+															tmp.post.push( lines[i].substring(columnNumber) );
+														}
+													}
+
+													pre		= tmp.pre.join('\n');
+													post	= tmp.post.join('\n');
+												})();
+											}
+											else {
+												pre			= json_text.substring(0, columnNumber);
+												post		= json_text.substring(columnNumber);
+											}
+										};
+
+										// --------------------------------------------------------------------
+										// problem using native JSON parser:
+										//   * the values reported by e.lineNumber and e.columnNumber don't correspond to a position within the text being parsed.
+										//     rather, they refer to the position within the javascript file from which `JSON.parse` was called.
+										//     which is completely useless.
+										// references:
+										//   * https://bugzilla.mozilla.org/show_bug.cgi?id=507998
+										//   * http://dxr.mozilla.org/mozilla-central/source/js/src/js.msg
+										//         line 103:
+										//             MSG_DEF(JSMSG_JSON_BAD_PARSE, 3, JSEXN_SYNTAXERR, "JSON.parse: {0} at line {1} column {2} of the JSON data")
+										// --------------------------------------------------------------------
+										// process_multi_line_input(e.columnNumber, e.lineNumber);
+
+										(function(){
+											var pattern, matches, line_num, col_num;
+
+											if (typeof e.message === 'string'){
+												pattern		= /at line (\d+) column (\d+) of the JSON data/i;
+												matches		= pattern.exec(e.message);
+
+												if (matches !== null){
+													line_num	= parseInt(matches[1], 10);
+													col_num		= parseInt(matches[2], 10);
+
+													if (
+														(! isNaN(line_num)) &&
+														(! isNaN(col_num))
+													){
+														// adjustment. numbers in error message are 1-based. indices are 0-based.
+														line_num--;
+														col_num--;
+
+														process_multi_line_input(col_num, line_num);
+													}
+												}
+											}
+										})();
+
+									})();
+								}
+
+								if (pre || post){
+									$error	= $C({
+										"pre_1": {
+											"text"			: pre
+										},
+										"div": {
+											"class"			: "parser_error",
+											"text"			: e.message
+										},
+										"pre_2": {
+											"text"			: post
+										}
+									}, false, document);
+								}
+								else {
+									$error	= false;
+								}
+								return $error;
+							})();
+
+							if ($parser_syntax_error){
+								highlight.enabled	= false;
+								json_text			= false;
+							}
+							else {
+								is_json				= false;
+							}
+						}
+						else {
+							is_json					= false;
+						}
+					}
+				})();
+				if (is_json !== true){return;}
+			}
+
 			(function(){
 				var fname;
 				fname				= document.location.pathname.toLowerCase().replace(/^.*\/([^\/]*?)(?:\.json)?$/,'$1');
@@ -172,19 +359,13 @@ if (!JSON_DataView) {
 					fname			= (is_jsonp)? (is_jsonp + '.jsonp') : 'JSON-DataView.json';
 				}
 				else {
-					fname			= fname + '.json';
+					fname			= fname + '.json' + ((is_jsonp)? 'p' : '');
 				}
 				document.title		= fname;
 			})();
 
 			(function(){
 				var $code;
-
-				// prefs: syntax_highlighter
-				var highlight = {};
-				highlight.theme		= self.prefs.getCharPref("syntax_highlighter.theme");
-				highlight.enabled	= self.prefs.getBoolPref("syntax_highlighter.enabled");
-				highlight.enabled	= (highlight.enabled && highlight.theme);
 
 				// add css files to head
 				$C({
@@ -263,7 +444,7 @@ if (!JSON_DataView) {
 							}}, body, document);
 
 					// populate $code "element" with a "root" tree node
-					jsonTreeViewer.parse(json_text, $code, document);
+					jsonTreeViewer.parse(parsed_json_data, $code, document);
 
 					// expand all tree nodes? (collapsed by default)
 					if ( self.prefs.getBoolPref("syntax_highlighter.expand_all_nodes") ){
@@ -353,7 +534,7 @@ if (!JSON_DataView) {
 					})();
 
 				}
-				else {
+				else if (json_text) {
 					// pretty-print the json data
 					json_text		= js_beautify(json_text, {
 						"indent_size"	: 1,
@@ -364,6 +545,11 @@ if (!JSON_DataView) {
 					$code	= $C({"pre": {
 									"text"			: json_text
 							}}, body, document);
+				}
+				else if ($parser_syntax_error) {
+					$parser_syntax_error.forEach(function($el){
+						body.appendChild($el);
+					});
 				}
 
 			})();
