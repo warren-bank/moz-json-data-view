@@ -15,6 +15,9 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
   * [js-beautify](https://github.com/beautify-web/js-beautify) is used to add whitespace for readability when syntax highlighting is turned off
 
+  * [bignumber.js](https://github.com/MikeMcl/bignumber.js) and [json-bigint](https://github.com/sidorares/json-bigint) are used to provide an alternate JSON parser that can retain the fidelity of integers that are too large to represent using the primitive JavaScript data type: `number`<br>
+    <sub>( language limitations are described in detail @ [issue #4](https://github.com/warren-bank/moz-json-data-view/issues/4) )</sub>
+
 ## Detection methodology
 
   * This add-on will modify the display of all server responses (or local files) that satisfy all of the following criteria:
