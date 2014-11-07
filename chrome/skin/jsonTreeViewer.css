@@ -26,8 +26,9 @@ ul#tree .children + b:before {
 	display:				inline;
 	content:				"\A0\2026\A0";
 }
-ul#tree .expanded > .value > .children + b:before {
-	display:				none;
+ul#tree .expanded > .value > .children + b:before,
+ul#tree .empty > .value > .children + b:before {
+	display:				none !important;
 	content:				"";
 }
 ul#tree .name_wrapper {
