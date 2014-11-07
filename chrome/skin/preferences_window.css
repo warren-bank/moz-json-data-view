@@ -27,3 +27,11 @@
 	display:			block;
 	width:				300px;
 }
+
+/*
+ * http://www.tek-tips.com/viewthread.cfm?qid=1627464
+ */
+prefwindow > .paneDeckContainer,
+prefpane > .content-box {
+	overflow:			visible;
+}
