@@ -354,7 +354,7 @@ if (!JSON_DataView) {
 
 			(function(){
 				var fname;
-				fname				= document.location.pathname.toLowerCase().replace(/^.*\/([^\/]*?)(?:\.json)?$/,'$1');
+				fname				= ( decodeURI(document.location.pathname) ).toLowerCase().replace(/^.*\/([^\/]*?)(?:\.json)?$/,'$1');
 				if (! fname){
 					fname			= (is_jsonp)? (is_jsonp + '.jsonp') : 'JSON-DataView.json';
 				}
