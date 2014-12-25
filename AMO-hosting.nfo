@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 
 https://addons.mozilla.org/en-us/firefox/addon/json-dataview/
-https://addons.mozilla.org/en-us/firefox/addon/json-dataview/versions/1.04
-https://addons.mozilla.org/firefox/downloads/file/270554/json_dataview-1.04-fx.xpi
+https://addons.mozilla.org/en-us/firefox/addon/json-dataview/versions/1.12
+https://addons.mozilla.org/firefox/downloads/file/290068/json_dataview-1.12-fx.xpi
 
-https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.0.4
-https://github.com/warren-bank/moz-json-data-view/releases/download/v1.0.4/JSON-DataView.xpi
+https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.12
+https://github.com/warren-bank/moz-json-data-view/releases/download/v1.12/JSON-DataView.xpi
 
-release date       : August 6, 2014
-size               : 209.3 kB
+release date       : December 24, 2014
+size               :  272.1 kB
 compatibility      : Firefox 4.0 and later
 
 ------------------------------------------------------------------------------- Basic Information:
@@ -21,64 +21,144 @@ tags               : data, javascript, javascript object notation, json, jsonp, 
 add-on icon        : ./chrome/skin/logo-64x64.png
 screenshots        : https://github.com/warren-bank/moz-json-data-view/raw/screenshots/01.png
 ------------------------------------------------------------------------------- Add-on Details: description
+<b>Summary</b>
+
+<ul>
+  <li><a href="https://github.com/summerstyle/jsonTreeViewer">jsonTreeViewer</a> served as a solid starting point for creating a DOM structure from JSON data
+  <li><a href="https://github.com/isagalaev/highlight.js">highlight.js</a> is used to provide syntax highlighting to the DOM structure
+  <li><a href="https://github.com/beautify-web/js-beautify">js-beautify</a> is used to add whitespace for readability when syntax highlighting is turned off
+  <li><a href="https://github.com/MikeMcl/bignumber.js">bignumber.js</a> and <a href="https://github.com/sidorares/json-bigint">json-bigint</a> are used to provide an alternate JSON parser that can retain the fidelity of integers that are too large to represent using the primitive JavaScript data type: <code>number</code>
+    <blockquote>( language limitations are described in detail @ <a href="https://github.com/warren-bank/moz-json-data-view/issues/4">issue #4</a> )</ul></blockquote>
+
 <b>Detection methodology</b>
 
 This add-on will modify the display of all server responses (or local files) that satisfy all of the following criteria:
 
 <ul>
-    <li> the location protocol is not 'view-source:'
-    <li> either:<ul>
-        <li> the HTTP header 'content-type' is one of:<ul>
-            <li> 'application/json'
-            <li> 'text/json'
-            <li> 'text/x-json'</ul>
-        <li> or both must be true:<ul>
-            <li> the HTTP header 'content-type' is one of:<ul>
-                <li> 'application/javascript'
-                <li> 'application/x-javascript'
-                <li> 'text/javascript'
-                <li> 'text/plain'</ul>
-            <li> and one of the following additional conditions are met:<ul>
-                <li> the location pathname ends with '.json'
-                <li> the location querystring contains 'callback=',
-                  and the response is structured as a JSONP callback function
-                <li> the location querystring contains 'JSON-DataView=json'
-                <li> the location hash is '#JSON-DataView'</ul>
-</ul></ul></ul>
+  <li>none of the following short-circuit conditions are true:<ul>
+    <li>the location protocol is 'view-source:'
+    <li>the location hash contains: <code>No-JSON-DataView</code>
+      <blockquote>notes:<ul>
+        <li>not case sensitive
+        <li>can be combined with other hash tokens by using one of the separators: <code>/,</code></ul></blockquote></ul>
+  <li>either:<ul>
+    <li>the HTTP header 'content-type' is one of:<ul>
+      <li>'application/json'
+      <li>'text/json'
+      <li>'text/x-json'</ul>
+    <li>or both must be true:<ul>
+      <li>the HTTP header 'content-type' is one of:<ul>
+        <li>'application/javascript'
+        <li>'application/x-javascript'
+        <li>'text/javascript'
+        <li>'text/plain'</ul>
+      <li>and one of the following additional conditions are met:<ul>
+        <li>the location pathname ends with '.json'
+        <li>the location querystring contains 'callback=',
+          and the response is structured as a JSONP callback function
+        <li>the location hash contains: <code>JSON-DataView</code></ul></ul></ul></ul>
 
 <b>Comments</b>
 
 <ul>
-  <li> It's become pretty standard practice for jsonp responses to contain javascript comments. The comments serve as a form of protection against an Adobe Flash Player exploit that uses jsonp to bypass the same-origin security policy. This <a href="https://github.com/mikispag/rosettaflash">attack</a> is known as <a href="http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/">Rosetta Flash</a>.
+  <li>It's become pretty standard practice for jsonp responses to contain javascript comments. The comments serve as a form of protection against an Adobe Flash Player exploit that uses jsonp to bypass the same-origin security policy. This <a href="https://github.com/mikispag/rosettaflash">attack</a> is known as <a href="http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/">Rosetta Flash</a>.
+  <li>When processing the response to determine whether it contains a valid jsonp callback function, the following javascript statements will be ignored:<ul>
+    <li>leading and trailing comments (in both <code>//</code> and <code>/* */</code> formats)
+    <li>leading validation of the callback function, using any of the patterns:<ul>
+      <li><code>cb &amp;&amp; cb(json)</code>
+      <li><code>typeof cb === 'function' &amp;&amp; cb(json)</code></ul></ul>
 
-  <li> This add-on will ignore both leading and trailing comments (in both <code>//</code> and <code>/* */</code> formats) when processing the response to determine whether it contains a valid jsonp callback function. After the format of the response is validated, the parameter string is extracted and treated as a string of JSON data.
+    After the format of the response is validated, the parameter string is extracted from the callback function and treated as a string of JSON data.
+  <li>In the detection methodology, the inspection of the location hash for special <code>control tokens</code> provides a user the added ability to explicitly override the normal detection logic.
 
-  <li> In the detection methodology, the inspection of the requested URL for an explicit trigger in either the querystring or hash gives the added ability to signal to the addon that the response contains JSON data. This becomes extremely useful when the content-type is too generic (either a misconfigured web server, poorly written backend script, or a local file read directly from disk) and the pathname doesn't include the proper file extension.
-</ul>
+    This can be useful in a number of different circumstances. For instance:<ul>
+    <li>A web server response is known to contain JSON data; however, the 'content-type' headers are too generic to pass normal detection. This would normally be the result of a misconfigured web server, or poorly written backend script.
+      <blockquote>the solution would be to manually append the <code>control token</code> that explicitly signals to the add-on that it should take action: <code>#JSON-DataView</code></blockquote>
+    <li>Another scenario (that I <a href="https://github.com/warren-bank/moz-harviewer">recently ran into</a>) is when two different add-ons are both triggered to take action on the same page.
+
+      JSON is a very general-purpose way to structure/serialize/transmit data.
+
+      There are many <code>domain specific</code> data formats that are defined by a JSON schema.
+      One such example is the <a href="http://www.softwareishard.com/blog/har-12-spec/">HTTP Archive format</a>.
+
+      If there's an add-on that specifically targets one such format,
+      then whether or not there is the potential for conflict between the two add-ons
+      running at the same time depends on the particular data format.<ul>
+      <li>If it has been assigned its own 'content-type' (and if servers tend to use it), then there won't be any conflict.
+      <li>However, if this data format is sent with a generic JSON-ish 'content-type', then both add-ons will most likely be trying to detect the same conditions.</ul>
+
+      This is where having the option to manually add <code>control tokens</code> is a very good thing.
+
+      Concrete example:<ul>
+      <li>both add-ons are installed:<ul>
+        <li><a href="https://github.com/warren-bank/moz-json-data-view">JSON-DataView</a>
+        <li><a href="https://github.com/warren-bank/moz-harviewer">HTTP Archive Viewer</a></ul>
+      <li>a HAR file is requested from a server
+      <li>the 'content-type' of the response is: <code>application/json</code>
+      <li>to view the HAR data in a rich visualization tool
+        (with charts and graphs, etc) using the <code>HTTP Archive Viewer</code> add-on,
+        the following <code>control tokens</code> could be used:<ul>
+        <li><a href="http://httparchive.webpagetest.org/export.php?test=140801_0_8JH&amp;run=1&amp;cached=0&amp;pretty=1#HTTP-Archive-Viewer/No-JSON-DataView">http://httparchive.webpagetest.org/export.php?test=140801_0_8JH&amp;run=1&amp;cached=0&amp;pretty=1#HTTP-Archive-Viewer/No-JSON-DataView</a></ul>
+      <li>conversely, to take a deep dive into the raw data using the <code>JSON-DataView</code> add-on,
+        the following <code>control tokens</code> could be used:<ul>
+        <li><a href="http://httparchive.webpagetest.org/export.php?test=140801_0_8JH&amp;run=1&amp;cached=0&amp;pretty=1#No-HTTP-Archive-Viewer/JSON-DataView">http://httparchive.webpagetest.org/export.php?test=140801_0_8JH&amp;run=1&amp;cached=0&amp;pretty=1#No-HTTP-Archive-Viewer/JSON-DataView</a></ul>
+      <li>note that:<ul>
+        <li>order of the <code>control tokens</code> doesn't matter
+        <li>they are both case insensitive</ul></ul></ul></ul>
 
 <b>User Preferences</b>
 
 <ul>
-  <li> syntax highlighting:<ul>
-    <li> on/off toggle
-
+  <li>Syntax Highlights:<ul>
+    <li>Enabled
       <blockquote>default: on</blockquote>
 
-    <li> choice of color scheme
+      on/off toggle<ul>
+      <li>on:
+        Builds an HTML DOM structure that supports presenting the data within a collapsible tree.
+      <li>off:
+        Filters the JSON data through <code>js-beautify</code>, and outputs into a <code>&lt;pre&gt;</code> DOM element.</ul>
+    <li>Expand All Nodes
+      <blockquote>default: false</blockquote>
 
-      options consist of those provided by <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles">highlight.js</a>
+      initialize all collapsible tree nodes to an expanded state (during page load)?
+    <li>Theme
+      <blockquote>default: 'solarized_dark'</blockquote>
 
-      <blockquote>default: 'solarized_dark'</blockquote></ul>
-</ul>
+      choice of color scheme.
+      options consist of those provided by <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles">highlight.js</a></ul>
+  <li>Optional Features:<ul>
+    <li>Use non-native JSON parser to support numbers that are too large to represent using primitive JavaScript data types
+      <blockquote>default: true</blockquote>
+    <li>Display JSON syntax error when encountered by the JSON parser
+      <blockquote>default: true</blockquote></ul>
+  <li>Display Options:<ul>
+    <li>font-family
+      <blockquote>default: ''</blockquote>
 
-<b>Updates..</b>
+      the (internal) stylesheet assigns a default value.
+      this preference is optional;
+      if assigned a value, it will override the stylesheet.
+    <li>font-size
+      <blockquote>default: 13</blockquote>
 
-While this version (1.04) available through AMO is perfectly adequate,
-all future updates will only be published as tagged releases on github.
+      units: px
+    <li>line-height
+      <blockquote>default: 2</blockquote>
 
-The slow pace of the review process (several months per update) simply doesn't keep pace with the rapid turnaround time (hours) of publishing enhancements in response to user suggestions/requests.
+      units: em
+    <li>padding around the <code>&lt;body&gt;</code>
+      <blockquote>default: 1</blockquote>
 
-The decision is ultimately left to the user. If an AMO <i>seal of approval</i> is a necessary safety requirement, then please use this version. Otherwise, I would highly recommend using the most recent <a target="_blank" href="https://github.com/warren-bank/moz-json-data-view/releases">release</a>.
+      units: em
+    <li>width of indentation for expanded children
+      <blockquote>default: 1</blockquote>
+
+      units: em
+
+      <strong>NOTE:</strong>
+      1.5em is ADDED to the value specified through this setting.
+      This is the width required to ensure the expand/collapse button can be properly displayed.</ul></ul>
 ------------------------------------------------------------------------------- Add-on Details: (continued)
 default locale     : English (US)
 homepage           : https://github.com/warren-bank/moz-json-data-view
