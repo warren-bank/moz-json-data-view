@@ -1,0 +1,96 @@
+-------------------------------------------------------------------------------
+
+https://addons.mozilla.org/en-us/firefox/addon/json-dataview/
+https://addons.mozilla.org/en-us/firefox/addon/json-dataview/versions/1.04
+https://addons.mozilla.org/firefox/downloads/file/270554/json_dataview-1.04-fx.xpi
+
+https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.0.4
+https://github.com/warren-bank/moz-json-data-view/releases/download/v1.0.4/JSON-DataView.xpi
+
+release date       : August 6, 2014
+size               : 209.3 kB
+compatibility      : Firefox 4.0 and later
+
+------------------------------------------------------------------------------- Basic Information:
+name               : JSON-DataView
+add-on URL         : json-dataview
+summary            : Displays JSON data in a collapsible tree structure with syntax highlights.
+categories         : ["Web Development"]
+tags               : data, javascript, javascript object notation, json, jsonp, tree
+------------------------------------------------------------------------------- Images:
+add-on icon        : ./chrome/skin/logo-64x64.png
+screenshots        : https://github.com/warren-bank/moz-json-data-view/raw/screenshots/01.png
+------------------------------------------------------------------------------- Add-on Details: description
+<b>Detection methodology</b>
+
+This add-on will modify the display of all server responses (or local files) that satisfy all of the following criteria:
+
+<ul>
+    <li> the location protocol is not 'view-source:'
+    <li> either:<ul>
+        <li> the HTTP header 'content-type' is one of:<ul>
+            <li> 'application/json'
+            <li> 'text/json'
+            <li> 'text/x-json'</ul>
+        <li> or both must be true:<ul>
+            <li> the HTTP header 'content-type' is one of:<ul>
+                <li> 'application/javascript'
+                <li> 'application/x-javascript'
+                <li> 'text/javascript'
+                <li> 'text/plain'</ul>
+            <li> and one of the following additional conditions are met:<ul>
+                <li> the location pathname ends with '.json'
+                <li> the location querystring contains 'callback=',
+                  and the response is structured as a JSONP callback function
+                <li> the location querystring contains 'JSON-DataView=json'
+                <li> the location hash is '#JSON-DataView'</ul>
+</ul></ul></ul>
+
+<b>Comments</b>
+
+<ul>
+  <li> It's become pretty standard practice for jsonp responses to contain javascript comments. The comments serve as a form of protection against an Adobe Flash Player exploit that uses jsonp to bypass the same-origin security policy. This <a href="https://github.com/mikispag/rosettaflash">attack</a> is known as <a href="http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/">Rosetta Flash</a>.
+
+  <li> This add-on will ignore both leading and trailing comments (in both <code>//</code> and <code>/* */</code> formats) when processing the response to determine whether it contains a valid jsonp callback function. After the format of the response is validated, the parameter string is extracted and treated as a string of JSON data.
+
+  <li> In the detection methodology, the inspection of the requested URL for an explicit trigger in either the querystring or hash gives the added ability to signal to the addon that the response contains JSON data. This becomes extremely useful when the content-type is too generic (either a misconfigured web server, poorly written backend script, or a local file read directly from disk) and the pathname doesn't include the proper file extension.
+</ul>
+
+<b>User Preferences</b>
+
+<ul>
+  <li> syntax highlighting:<ul>
+    <li> on/off toggle
+
+      <blockquote>default: on</blockquote>
+
+    <li> choice of color scheme
+
+      options consist of those provided by <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles">highlight.js</a>
+
+      <blockquote>default: 'solarized_dark'</blockquote></ul>
+</ul>
+
+<b>Updates..</b>
+
+While this version (1.04) available through AMO is perfectly adequate,
+all future updates will only be published as tagged releases on github.
+
+The slow pace of the review process (several months per update) simply doesn't keep pace with the rapid turnaround time (hours) of publishing enhancements in response to user suggestions/requests.
+
+The decision is ultimately left to the user. If an AMO <i>seal of approval</i> is a necessary safety requirement, then please use this version. Otherwise, I would highly recommend using the most recent <a target="_blank" href="https://github.com/warren-bank/moz-json-data-view/releases">release</a>.
+------------------------------------------------------------------------------- Add-on Details: (continued)
+default locale     : English (US)
+homepage           : https://github.com/warren-bank/moz-json-data-view
+------------------------------------------------------------------------------- Support Information:
+email              :
+website            : https://github.com/warren-bank/moz-json-data-view/issues
+------------------------------------------------------------------------------- Technical Details: developer comments
+------------------------------------------------------------------------------- Technical Details: (continued)
+required add-ons   :
+add-on flags       :
+view source?       : This add-on's source code is publicly viewable.
+public stats?      : No, this add-on's stats are not publicly viewable.
+UUID               : moz-json-data-view@warren-bank.github.com
+whiteboard         :
+-------------------------------------------------------------------------------
