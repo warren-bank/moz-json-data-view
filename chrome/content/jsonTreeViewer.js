@@ -13,6 +13,8 @@
 var jsonTreeViewer = (function() {
 	var doc;
 
+	var options = {};
+
 	/* Utilities */
 	var utils = {
 	/* unused and unreachable */
@@ -151,7 +153,49 @@ var jsonTreeViewer = (function() {
 				Child.prototype = new F();
 				Child.prototype.constructor = Child;
 			}
-		})()
+		})(),
+
+		"set_options" : function(user_options){
+			var new_options, key;
+
+			new_options = {
+				"replace_newline"			: false,	// true
+				"replace_tab"				: false,	// true, or custom replacement string. no HTML is allowed. ex: '\\u00A0\\u00A0\\u00A0\\u00A0'
+				"replace_url"				: false,	// true
+
+				"escape_back_slash"			: true,
+				"escape_forward_slash"		: false,
+				"escape_double_quote"		: true,
+				"escape_carriage_return"	: true,
+				"escape_line_feed"			: true,
+				"escape_tab"				: true,
+				"escape_form_feed"			: true,
+				"escape_backspace"			: true,
+				"escape_unicode_characters"	: false
+			};
+
+			if (
+				(typeof user_options === 'object') &&
+				(user_options !== null)
+			){
+				for (key in user_options){
+					// only replace the value of keys that already exist in the default set of options
+					if (typeof new_options[key] !== 'undefined'){
+						new_options[key] = user_options[key];
+					}
+				}
+			}
+
+			// variable belongs to parent closure
+			options = new_options;
+		},
+
+		"get_option" : function(name){
+			return (
+				(typeof options[name] === 'undefined')? null : options[name]
+			);
+		}
+
 	};
 
 	/* Node's factory */
@@ -235,7 +279,49 @@ var jsonTreeViewer = (function() {
 	function Node_string(name, value, is_last) {
 		this.type = "string";
 
-		Node_simple.call(this, name, '"' + value + '"', is_last);
+		value = (function(v){
+			if (utils.get_option('escape_back_slash')){
+				v = v.replace(/(\\)/gm, '\\$1');
+			}
+			if (utils.get_option('escape_forward_slash')){
+				v = v.replace(/(\/)/gm, '\\$1');
+			}
+			if (utils.get_option('escape_double_quote')){
+				v = v.replace(/(")/gm, '\\$1');
+			}
+			if (! utils.get_option('replace_newline')){
+				if (utils.get_option('escape_carriage_return')){
+					v = v.replace(/\r/gm, '\\r');
+				}
+				if (utils.get_option('escape_line_feed')){
+					v = v.replace(/\n/gm, '\\n');
+				}
+			}
+			if (! utils.get_option('replace_tab')){
+				if (utils.get_option('escape_tab')){
+					v = v.replace(/\t/gm, '\\t');
+				}
+			}
+			else {
+				v = v.replace(/\t/gm, ((typeof utils.get_option('replace_tab') === 'string')? utils.get_option('replace_tab') : '\\u00A0\\u00A0\\u00A0\\u00A0'));
+			}
+			if (utils.get_option('escape_form_feed')){
+				v = v.replace(/\x08/gm, '\\f');
+			}
+			if (utils.get_option('escape_backspace')){
+				v = v.replace(/\x0c/gm, '\\b');
+			}
+
+			v = '"' + v + '"';
+			return v;
+		})(value);
+
+		// to do: ['escape_unicode_characters']
+
+		// to do: ['replace_newline','replace_url']
+		// these will require updates to the DOM, rather than simple text substitution
+
+		Node_simple.call(this, name, value, is_last);
 	}
 
 	/* Null */
@@ -443,7 +529,7 @@ var jsonTreeViewer = (function() {
 	})();
 
 	return {
-		"parse" : function(data, container_element, _doc) {
+		"parse" : function(data, container_element, _doc, user_options) {
 			doc = _doc || document;
 
 			var js_obj;
@@ -478,9 +564,11 @@ var jsonTreeViewer = (function() {
 			}
 
 			if (js_obj){
-				if (container_element)
+				if (container_element){
 					tree.set_el(container_element);
+				}
 
+				utils.set_options(user_options);
 				tree.set_root(new Node(null, js_obj, 'last'));
 			}
 		},
