@@ -288,8 +288,9 @@ var jsonTreeViewer = (function() {
 
 		if (name !== null) {
 			name_el = el.querySelector('.name');
-			name_el.addEventListener('click', function() {
-				self.toggle();
+			name_el.addEventListener('click', function(event) {
+				var is_recursive = event.ctrlKey || event.shiftKey;
+				self.toggle(is_recursive);
 			}, false);
 			self.is_root = false;
 		} else {
@@ -348,8 +349,18 @@ var jsonTreeViewer = (function() {
 				});
 			}
 		},
-		toggle : function() {
-			this.el.classList.toggle('expanded');
+		toggle : function(is_recursive) {
+			if (is_recursive){
+				if (this.el.classList.contains('expanded')){
+					this.collapse(is_recursive);
+				}
+				else {
+					this.expand(is_recursive);
+				}
+			}
+			else {
+				this.el.classList.toggle('expanded');
+			}
 		}
 	};
 
