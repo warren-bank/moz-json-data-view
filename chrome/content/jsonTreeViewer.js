@@ -18,20 +18,20 @@ var jsonTreeViewer = (function() {
 	/* unused and unreachable */
 	/*
 
-		id : function (str) {
+		"id" : function (str) {
 			return doc.getElementById(str);
 		},
-		hide : function(node) {
+		"hide" : function(node) {
 			node.style.display = 'none';
 
 			return this;
 		},
-		show : function(node) {
+		"show" : function(node) {
 			node.style.display = 'block';
 
 			return this;
 		},
-		add_node_from_html : function(parent, html) {
+		"add_node_from_html" : function(parent, html) {
 			var div = doc.createElement('div');
 
 			parent.appendChild(div);
@@ -40,13 +40,13 @@ var jsonTreeViewer = (function() {
 		},
 
 		//JSON data types
-		is_string : function(x) {
+		"is_string" : function(x) {
 			return typeof x === 'string';
 		},
-		is_number : function(x) {
+		"is_number" : function(x) {
 			return typeof x === 'number';
 		},
-		is_big_number : function(x) {
+		"is_big_number" : function(x) {
 			return (
 					(typeof x === 'object') &&
 					(x !== null) &&
@@ -55,22 +55,22 @@ var jsonTreeViewer = (function() {
 					(x.constructor.name === 'BigNumber')
 			);
 		},
-		is_boolean : function(x) {
+		"is_boolean" : function(x) {
 			return typeof x === 'boolean';
 		},
-		is_null : function(x) {
+		"is_null" : function(x) {
 			return x === null;
 		},
-		is_array : function(x) {
+		"is_array" : function(x) {
 			return Object.prototype.toString.call(x) === "[object Array]";
 		},
-		is_object : function(x) {
+		"is_object" : function(x) {
 			return Object.prototype.toString.call(x) === "[object Object]";
 		},
 
 	*/
 
-		get_type : function(x) {
+		"get_type" : function(x) {
 			if (x === null) {
 				return 'null';
 			};
@@ -107,7 +107,7 @@ var jsonTreeViewer = (function() {
 			throw new Error('Bad type');
 		},
 
-		foreach : function(obj, func) {
+		"foreach" : function(obj, func) {
 			var type = utils.get_type(obj),
 				is_last = false,
 				last;
@@ -142,7 +142,8 @@ var jsonTreeViewer = (function() {
 					break;
 			}
 		},
-		inherits : (function() {
+
+		"inherits" : (function() {
 			var F = function() {};
 
 			return function(Child, Parent) {
@@ -314,12 +315,14 @@ var jsonTreeViewer = (function() {
 	}
 
 	Node_complex.prototype = {
-		constructor : Node_complex,
-		add_child : function(child) {
+		"constructor" : Node_complex,
+
+		"add_child" : function(child) {
 			this.children.push(child);
 			this.children_ul.appendChild(child.el);
 		},
-		expand : function(is_recursive){
+
+		"expand" : function(is_recursive){
 			var children = this.children;
 
 			if (!this.is_root) {
@@ -334,7 +337,8 @@ var jsonTreeViewer = (function() {
 				});
 			}
 		},
-		collapse : function(is_recursive) {
+
+		"collapse" : function(is_recursive) {
 			var children = this.children;
 
 			if (!this.is_root) {
@@ -349,7 +353,8 @@ var jsonTreeViewer = (function() {
 				});
 			}
 		},
-		toggle : function(is_recursive) {
+
+		"toggle" : function(is_recursive) {
 			if (is_recursive){
 				if (this.el.classList.contains('expanded')){
 					this.collapse(is_recursive);
@@ -388,7 +393,7 @@ var jsonTreeViewer = (function() {
 		var el, root = null;
 
 		return {
-			set_el : function(element){
+			"set_el" : function(element){
 				if (! (element instanceof Element)){return;}
 
 				while (element.firstChild) {
@@ -413,7 +418,8 @@ var jsonTreeViewer = (function() {
 			//		e.preventDefault();
 			//	}, false);
 			},
-			set_root : function(child) {
+
+			"set_root" : function(child) {
 				root = child;
 
 				if (! el)
@@ -421,12 +427,14 @@ var jsonTreeViewer = (function() {
 
 				el.appendChild(child.el);
 			},
-			expand : function() {
+
+			"expand" : function() {
 				if (root) {
 					root.expand('recursive');
 				}
 			},
-			collapse : function(){
+
+			"collapse" : function(){
 				if (root) {
 					root.collapse('recursive');
 				}
@@ -435,7 +443,7 @@ var jsonTreeViewer = (function() {
 	})();
 
 	return {
-		parse : function(data, container_element, _doc) {
+		"parse" : function(data, container_element, _doc) {
 			doc = _doc || document;
 
 			var js_obj;
@@ -476,7 +484,9 @@ var jsonTreeViewer = (function() {
 				tree.set_root(new Node(null, js_obj, 'last'));
 			}
 		},
-		expand   : tree.expand,
-		collapse : tree.collapse
+
+		"expand" : tree.expand,
+
+		"collapse" : tree.collapse
 	};
 })();
