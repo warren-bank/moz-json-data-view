@@ -311,12 +311,30 @@ var jsonTreeViewer = (function() {
 			if (utils.get_option('escape_backspace')){
 				v = v.replace(/\x0c/gm, '\\b');
 			}
+			if (utils.get_option('escape_unicode_characters')){
+				(function(){
+					var search_pattern, pad, callback;
+
+					search_pattern = /[\x00-\x1f\x7f-\xff]/gm;
+					pad = function(num, size){
+						return (
+							(num.length < size)? pad("0" + num, size) : num
+						);
+					};
+					callback = function(chr){
+						var num;
+						num = chr.charCodeAt(0).toString(16).toUpperCase();
+						num = pad(num, 4);
+						return ('\\u' + num);
+					};
+
+					v = v.replace(search_pattern, callback);
+				})();
+			}
 
 			v = '"' + v + '"';
 			return v;
 		})(value);
-
-		// to do: ['escape_unicode_characters']
 
 		// to do: ['replace_newline','replace_url']
 		// these will require updates to the DOM, rather than simple text substitution
