@@ -33,6 +33,7 @@ ul#tree .empty > .value > .children + b:before {
 }
 ul#tree .name_wrapper {
 	float:					left;
+	vertical-align:			top;
 	margin-right:			0.65em;
 }
 ul#tree .name {
@@ -68,6 +69,7 @@ ul#tree .array > .name_wrapper > .name {
 }
 ul#tree .value {
 	vertical-align:			top;
+	display:				inline-block;
 }
 
 /* **************************************************************************** */

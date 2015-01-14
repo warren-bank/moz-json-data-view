@@ -234,7 +234,7 @@ var jsonTreeViewer = (function() {
 		var self     = this,
 			el       = doc.createElement('li'),
 			template = function(el, name, value) {
-				$C({
+				var dom_struct = {
 					"span_1" : {
 						"class"		: "name_wrapper",
 						"span"		: {
@@ -245,13 +245,27 @@ var jsonTreeViewer = (function() {
 					},
 					"span_2" : {
 						"class"		: "value",
-						"text"		: ("" + value)
+						"span"		: {}
 					},
 					"text" : {
 						"condition"	: (!is_last),
 						"text"		: ","
 					}
-				},el,doc);
+				};
+
+				if (
+					(typeof value === 'object') &&
+					(value !== null)
+				){
+					dom_struct["span_2"]["span"] = value;
+				}
+				else {
+					dom_struct["span_2"]["span"] = {
+						"text"		: ("" + value)
+					};
+				}
+
+				$C(dom_struct,el,doc);
 			};
 
 		el.classList.add('node');
@@ -279,6 +293,7 @@ var jsonTreeViewer = (function() {
 	function Node_string(name, value, is_last) {
 		this.type = "string";
 
+		// perform simple text substitution
 		value = (function(v){
 			if (utils.get_option('escape_back_slash')){
 				v = v.replace(/(\\)/gm, '\\$1');
@@ -336,8 +351,135 @@ var jsonTreeViewer = (function() {
 			return v;
 		})(value);
 
-		// to do: ['replace_newline','replace_url']
-		// these will require updates to the DOM, rather than simple text substitution
+		// perform replacements that will require updates to the DOM, rather than simple text substitution
+		value = (function(v){
+			var dom_struct, dom_keys_counter, get_next_dom_key, search_patterns, chomp_next_pattern, process_match;
+
+			dom_struct = {};
+			dom_keys_counter = {};
+
+			get_next_dom_key = function(key){
+				var old_counter, new_counter, new_key;
+
+				old_counter = (typeof dom_keys_counter[key] === 'number')? dom_keys_counter[key] : 0;
+				new_counter = old_counter + 1;
+
+				dom_keys_counter[key] = new_counter;
+				new_key = key + '_' + new_counter;
+
+				return new_key;
+			};
+
+			search_patterns = {};
+			if (utils.get_option('replace_newline')){
+				search_patterns['replace_newline'] = /(\r?\n)/gm;
+			}
+			if (utils.get_option('replace_url')){
+				/* **********************************
+				 * source of regex pattern to identify URLs:
+				 *   - https://mathiasbynens.be/demo/url-regex
+				 *   - https://gist.github.com/729294
+				 * **********************************
+				 */
+				search_patterns['replace_url'] = /\b(?:(?:https?|ftp|mailto):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff]+-?)*[a-z0-9\u00a1-\uffff]+)(?:\.(?:[a-z0-9\u00a1-\uffff]+-?)*[a-z0-9\u00a1-\uffff]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?/igm;
+			}
+
+			chomp_next_pattern = function(){
+				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#Example.3A_Finding_successive_matches
+				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex
+
+				var matches, first_start_index, first_key, key, match;
+				var dom_key, txt_node, dom_node;
+
+				matches = {};
+				first_start_index = -1;
+				first_key = null;
+
+				for (key in search_patterns){
+					match = (search_patterns[key]).exec(v);
+
+					if (match !== null){
+						matches[key]                = {};
+						matches[key]["value"]       = match[0];
+						matches[key]["length"]      = match[0].length;
+						matches[key]["last_index"]  = (search_patterns[key]).lastIndex;
+						matches[key]["start_index"] = (matches[key]["last_index"] - matches[key]["length"]);
+
+						if (
+							(first_start_index === -1) ||
+							(first_start_index > matches[key]["start_index"])
+						){
+							first_start_index = matches[key]["start_index"];
+							first_key = key;
+						}
+					}
+
+					// reset `lastIndex`, since the length of the string is being reduced from the front
+					(search_patterns[key]).lastIndex = 0;
+				}
+
+				if (first_start_index === -1){
+					dom_key                 = get_next_dom_key('text');
+					txt_node                = v;
+					dom_struct[dom_key]     = txt_node;
+					v                       = '';
+				}
+				else {
+					if (first_start_index > 0){
+						dom_key             = get_next_dom_key('text');
+						txt_node            = v.substring(0, first_start_index);
+						dom_struct[dom_key] = txt_node;
+					}
+					process_match(first_key, matches[first_key]["value"]);
+					if (
+						(matches[first_key]["last_index"] < matches[first_key]["start_index"]) ||
+						(
+							(matches[first_key]["last_index"] === matches[first_key]["start_index"]) &&
+							(matches[first_key]["length"] > 0)
+						) ||
+						(matches[first_key]["last_index"] >= v.length)
+					){
+						v                   = '';
+					}
+					else {
+						v                   = v.substring(matches[first_key]["last_index"]);
+					}
+				}
+
+				if (v){
+					chomp_next_pattern();
+				}
+			};
+
+			process_match = function(key, value){
+				var dom_key, dom_node;
+
+				switch(key){
+					case 'replace_newline':
+						dom_key  = get_next_dom_key('br');
+						dom_node = false;
+						break;
+					case 'replace_url':
+						if (utils.get_option('escape_forward_slash')){
+							value = value.replace(/\\(\/)/gm, '$1');
+						}
+						dom_key  = get_next_dom_key('a');
+						dom_node = {
+							"href" : value,
+							"text" : value
+						};
+						break;
+				}
+
+				if (dom_key){
+					dom_struct[dom_key] = dom_node;
+				}
+			};
+
+			chomp_next_pattern();
+
+			return dom_struct;
+		})(value);
 
 		Node_simple.call(this, name, value, is_last);
 	}

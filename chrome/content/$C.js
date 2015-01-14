@@ -31,7 +31,7 @@
  */
 
 var $C = function(dom, id, _doc) {
-	var doc, valid_tags, html, non_alapha, get_textnode, tag, child, attributes, tagname, ele, att, value, index, node;
+	var doc, valid_tags, html, non_alapha, get_textnode, tag, attributes, tagname, ele, child, att, value, index, node;
 
 	doc							= _doc || document;
 
@@ -85,7 +85,6 @@ var $C = function(dom, id, _doc) {
 		return ele;
 	};
 	for(tag in dom) {
-		child					= false;
 		if(isNaN(tag)) { //Associative array
 			attributes			= dom[tag];
 		} else { //It's a list
@@ -108,7 +107,10 @@ var $C = function(dom, id, _doc) {
 
 		//If the given attribute is a string, it is a text node
 		if(typeof(attributes) == "string"){
-			child				= doc.createTextNode(attributes);
+			child = doc.createTextNode(attributes);
+			if (child){
+				ele.appendChild(child);
+			}
 		}
 		else if(attributes) {//If it an array...
 			for(att in attributes) {
@@ -133,10 +135,16 @@ var $C = function(dom, id, _doc) {
 					//Find the dom sturcture of that tag.
 					node		= {};
 					node[att]	= value;
-					ele.appendChild($C(node,"",doc));				//RECURSION
+					child		= $C(node,"",doc);					//RECURSION
+					if (child){
+						ele.appendChild(child);
+					}
 				}
 				else if(att == "text") {
-					child		= get_textnode(value);
+					child = get_textnode(value);
+					if (child){
+						ele.appendChild(child);
+					}
 				}
 				else {
 					ele.setAttribute(att,value);
@@ -145,7 +153,6 @@ var $C = function(dom, id, _doc) {
 		}
 
 		if(ele){
-			if(child && attributes) ele.appendChild(child);			//Append the child if it exists
 			html.push(ele);
 		}
 	}
