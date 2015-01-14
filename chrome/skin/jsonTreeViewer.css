@@ -69,7 +69,22 @@ ul#tree .array > .name_wrapper > .name {
 }
 ul#tree .value {
 	vertical-align:			top;
+}
+
+ul#tree .string > .value {
 	display:				inline-block;
+}
+ul#tree .string > .value a {
+	color:					inherit;
+	font-size:				inherit;
+	font-family:			inherit;
+	font-weight:			inherit;
+	text-decoration:		underline;
+}
+ul#tree .string > .value .hljs {
+	display:				inline;
+	padding:				0px;
+	background:				inherit;
 }
 
 /* **************************************************************************** */

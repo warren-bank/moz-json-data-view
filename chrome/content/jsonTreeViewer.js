@@ -160,8 +160,8 @@ var jsonTreeViewer = (function() {
 
 			new_options = {
 				"replace_newline"			: false,	// true
-				"replace_tab"				: false,	// true, or custom replacement string. no HTML is allowed. ex: '\\u00A0\\u00A0\\u00A0\\u00A0'
-				"replace_url"				: false,	// true
+				"replace_tab"				: false,	// true, or custom replacement string. no HTML is allowed. ex: '\u00A0\u00A0\u00A0\u00A0'
+				"replace_url"				: true,		// true
 
 				"escape_back_slash"			: true,
 				"escape_forward_slash"		: false,
@@ -318,7 +318,7 @@ var jsonTreeViewer = (function() {
 				}
 			}
 			else {
-				v = v.replace(/\t/gm, ((typeof utils.get_option('replace_tab') === 'string')? utils.get_option('replace_tab') : '\\u00A0\\u00A0\\u00A0\\u00A0'));
+				v = v.replace(/\t/gm, ((typeof utils.get_option('replace_tab') === 'string')? utils.get_option('replace_tab') : '\u00A0\u00A0\u00A0\u00A0'));
 			}
 			if (utils.get_option('escape_form_feed')){
 				v = v.replace(/\x08/gm, '\\f');
@@ -353,7 +353,7 @@ var jsonTreeViewer = (function() {
 
 		// perform replacements that will require updates to the DOM, rather than simple text substitution
 		value = (function(v){
-			var dom_struct, dom_keys_counter, get_next_dom_key, search_patterns, chomp_next_pattern, process_match;
+			var dom_struct, dom_keys_counter, get_next_dom_key, search_patterns, chomp_next_pattern, process_match, reposition_trailing_comma;
 
 			dom_struct = {};
 			dom_keys_counter = {};
@@ -389,7 +389,7 @@ var jsonTreeViewer = (function() {
 				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex
 
 				var matches, first_start_index, first_key, key, match;
-				var dom_key, txt_node, dom_node;
+				var dom_key, txt_node;
 
 				matches = {};
 				first_start_index = -1;
@@ -465,8 +465,9 @@ var jsonTreeViewer = (function() {
 						}
 						dom_key  = get_next_dom_key('a');
 						dom_node = {
-							"href" : value,
-							"text" : value
+							"href"   : value,
+							"target" : "_blank",
+							"text"   : value
 						};
 						break;
 				}
@@ -476,7 +477,22 @@ var jsonTreeViewer = (function() {
 				}
 			};
 
+			reposition_trailing_comma = function(){
+				var dom_key, dom_node;
+
+				if (! is_last){
+					dom_key  = get_next_dom_key('span');
+					dom_node = {
+						"class" : "hljs",
+						"text"  : ","
+					};
+					dom_struct[dom_key] = dom_node;
+					is_last = true;
+				}
+			};
+
 			chomp_next_pattern();
+			reposition_trailing_comma();
 
 			return dom_struct;
 		})(value);
