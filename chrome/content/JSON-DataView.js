@@ -365,7 +365,7 @@ if (!JSON_DataView) {
 			})();
 
 			(function(){
-				var $code;
+				var $code, user_options;
 
 				// add css files to head
 				$C({
@@ -443,8 +443,24 @@ if (!JSON_DataView) {
 									"id"			: "tree"
 							}}, body, document);
 
+					user_options = {
+						"replace_newline"			: self.prefs.getBoolPref("value_filters.string.replace.newline"),
+						"replace_tab"				: self.prefs.getBoolPref("value_filters.string.replace.tab"),
+						"replace_url"				: self.prefs.getBoolPref("value_filters.string.replace.url"),
+
+						"escape_back_slash"			: self.prefs.getBoolPref("value_filters.string.escape.back_slash"),
+						"escape_forward_slash"		: self.prefs.getBoolPref("value_filters.string.escape.forward_slash"),
+						"escape_double_quote"		: self.prefs.getBoolPref("value_filters.string.escape.double_quote"),
+						"escape_carriage_return"	: self.prefs.getBoolPref("value_filters.string.escape.carriage_return"),
+						"escape_line_feed"			: self.prefs.getBoolPref("value_filters.string.escape.line_feed"),
+						"escape_tab"				: self.prefs.getBoolPref("value_filters.string.escape.tab"),
+						"escape_form_feed"			: self.prefs.getBoolPref("value_filters.string.escape.form_feed"),
+						"escape_backspace"			: self.prefs.getBoolPref("value_filters.string.escape.backspace"),
+						"escape_unicode_characters"	: self.prefs.getBoolPref("value_filters.string.escape.unicode_characters")
+					};
+
 					// populate $code "element" with a "root" tree node
-					jsonTreeViewer.parse(parsed_json_data, $code, document);
+					jsonTreeViewer.parse(parsed_json_data, $code, document, user_options);
 
 					// expand all tree nodes? (collapsed by default)
 					if ( self.prefs.getBoolPref("syntax_highlighter.expand_all_nodes") ){
