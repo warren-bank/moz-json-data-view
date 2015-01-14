@@ -21,6 +21,19 @@
 			<preference id="optional_features_big_number" name="extensions.JSON_DataView.optional_features.BigNumber" type="bool"/>
 			<preference id="optional_features_debug_parser_errors" name="extensions.JSON_DataView.optional_features.debug_parser_errors" type="bool"/>
 
+			<preference id="value_filters_string_replace_newline" name="extensions.JSON_DataView.value_filters.string.replace.newline" type="bool"/>
+			<preference id="value_filters_string_replace_tab" name="extensions.JSON_DataView.value_filters.string.replace.tab" type="bool"/>
+			<preference id="value_filters_string_replace_url" name="extensions.JSON_DataView.value_filters.string.replace.url" type="bool"/>
+			<preference id="value_filters_string_escape_back_slash" name="extensions.JSON_DataView.value_filters.string.escape.back_slash" type="bool"/>
+			<preference id="value_filters_string_escape_forward_slash" name="extensions.JSON_DataView.value_filters.string.escape.forward_slash" type="bool"/>
+			<preference id="value_filters_string_escape_double_quote" name="extensions.JSON_DataView.value_filters.string.escape.double_quote" type="bool"/>
+			<preference id="value_filters_string_escape_carriage_return" name="extensions.JSON_DataView.value_filters.string.escape.carriage_return" type="bool"/>
+			<preference id="value_filters_string_escape_line_feed" name="extensions.JSON_DataView.value_filters.string.escape.line_feed" type="bool"/>
+			<preference id="value_filters_string_escape_tab" name="extensions.JSON_DataView.value_filters.string.escape.tab" type="bool"/>
+			<preference id="value_filters_string_escape_form_feed" name="extensions.JSON_DataView.value_filters.string.escape.form_feed" type="bool"/>
+			<preference id="value_filters_string_escape_backspace" name="extensions.JSON_DataView.value_filters.string.escape.backspace" type="bool"/>
+			<preference id="value_filters_string_escape_unicode_characters" name="extensions.JSON_DataView.value_filters.string.escape.unicode_characters" type="bool"/>
+
 			<preference id="css_tree_font_family" name="extensions.JSON_DataView.css.tree.font_family" type="string"/>
 			<preference id="css_tree_font_size" name="extensions.JSON_DataView.css.tree.font_size" type="int"/>
 			<preference id="css_tree_line_height" name="extensions.JSON_DataView.css.tree.line_height" type="int"/>
@@ -28,10 +41,20 @@
 			<preference id="css_subtree_white_space_indentation" name="extensions.JSON_DataView.css.subtree.white_space_indentation" type="int"/>
 		</preferences>
 
-		<groupbox>
+		<tabbox>
+			<tabs>
+				<tab label="&prefwindow.JSON_DataView.tab.general;"/>
+				<tab label="&prefwindow.JSON_DataView.tab.display_data;"/>
+				<tab label="&prefwindow.JSON_DataView.tab.display_styles;"/>
+			</tabs>
+			<tabpanels>
+				<tabpanel id="tab_general">
+<!-- ========================================================================== -->
+<vbox flex="1">
+		<groupbox orient="vertical" flex="1">
 			<caption label="&prefwindow.JSON_DataView.heading.syntax_highlighter;"/>
 
-			<vbox align="left">
+			<vbox align="left" flex="1">
 				<separator class="thin"/>
 				<checkbox preference="syntax_highlighter_enabled" label="&prefwindow.JSON_DataView.label.syntax_highlighter.enabled;"/>
 				<checkbox preference="syntax_highlighter_expand_all_nodes" label="&prefwindow.JSON_DataView.label.syntax_highlighter.expand_all_nodes;"/>
@@ -92,48 +115,85 @@
 					</menulist>
 				</hbox>
 			</vbox>
-		</groupbox>
+		</groupbox><!-- syntax_highlighter -->
 
 		<separator class="groove"/>
 
-		<groupbox>
+		<groupbox orient="vertical" flex="1">
 			<caption label="&prefwindow.JSON_DataView.heading.optional_features;"/>
 
-			<vbox align="left">
+			<vbox align="left" flex="1">
 				<separator class="thin"/>
 				<checkbox preference="optional_features_big_number" label="&prefwindow.JSON_DataView.label.optional_features.big_number;"/>
+
+				<separator class="thin"/>
 				<checkbox preference="optional_features_debug_parser_errors" label="&prefwindow.JSON_DataView.label.optional_features.debug_parser_errors;"/>
 			</vbox>
-		</groupbox>
+		</groupbox><!-- optional_features -->
+</vbox>
+<!-- ========================================================================== -->
+				</tabpanel>
+				<tabpanel id="tab_display_data">
+<!-- ========================================================================== -->
+<vbox flex="1">
+		<groupbox orient="vertical" flex="1">
+			<caption label="&prefwindow.JSON_DataView.heading.value_filters.string;"/>
 
-		<separator class="groove"/>
-
-		<groupbox>
-			<caption label="&prefwindow.JSON_DataView.heading.display_options;"/>
-
-			<vbox align="left">
+			<vbox align="left" flex="1">
 				<separator class="thin"/>
-				<label>&prefwindow.JSON_DataView.label.display_options.tree.font_family;:</label>
+				<checkbox preference="value_filters_string_replace_newline" label="&prefwindow.JSON_DataView.label.value_filters.string.replace.newline;"/>
+				<checkbox preference="value_filters_string_replace_tab" label="&prefwindow.JSON_DataView.label.value_filters.string.replace.tab;"/>
+				<checkbox preference="value_filters_string_replace_url" label="&prefwindow.JSON_DataView.label.value_filters.string.replace.url;"/>
+
+				<separator class="thin"/>
+				<checkbox preference="value_filters_string_escape_back_slash" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.back_slash;"/>
+				<checkbox preference="value_filters_string_escape_forward_slash" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.forward_slash;"/>
+				<checkbox preference="value_filters_string_escape_double_quote" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.double_quote;"/>
+				<checkbox preference="value_filters_string_escape_carriage_return" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.carriage_return;"/>
+				<checkbox preference="value_filters_string_escape_line_feed" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.line_feed;"/>
+				<checkbox preference="value_filters_string_escape_tab" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.tab;"/>
+				<checkbox preference="value_filters_string_escape_form_feed" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.form_feed;"/>
+				<checkbox preference="value_filters_string_escape_backspace" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.backspace;"/>
+				<checkbox preference="value_filters_string_escape_unicode_characters" label="&prefwindow.JSON_DataView.label.value_filters.string.escape.unicode_characters;"/>
+			</vbox>
+		</groupbox><!-- css -->
+</vbox>
+<!-- ========================================================================== -->
+				</tabpanel>
+				<tabpanel id="tab_display_styles">
+<!-- ========================================================================== -->
+<vbox flex="1">
+		<groupbox orient="vertical" flex="1">
+			<caption label="&prefwindow.JSON_DataView.heading.css;"/>
+
+			<vbox align="left" flex="1">
+				<separator class="thin"/>
+				<label>&prefwindow.JSON_DataView.label.css.tree.font_family;:</label>
 				<textbox class="textbox string" preference="css_tree_font_family" />
 
 				<separator class="thin"/>
-				<label>&prefwindow.JSON_DataView.label.display_options.tree.font_size;:</label>
+				<label>&prefwindow.JSON_DataView.label.css.tree.font_size;:</label>
 				<textbox class="textbox number" preference="css_tree_font_size" type="number" min="4" max="40" decimalplaces="0" hidespinbuttons="false" />
 
 				<separator class="thin"/>
-				<label>&prefwindow.JSON_DataView.label.display_options.tree.line_height;:</label>
+				<label>&prefwindow.JSON_DataView.label.css.tree.line_height;:</label>
 				<textbox class="textbox number" preference="css_tree_line_height" type="number" min="1" max="4" decimalplaces="0" hidespinbuttons="false" />
 
 				<separator class="thin"/>
-				<label>&prefwindow.JSON_DataView.label.display_options.tree.padding;:</label>
+				<label>&prefwindow.JSON_DataView.label.css.tree.padding;:</label>
 				<textbox class="textbox number" preference="css_tree_padding" type="number" min="0" max="10" decimalplaces="0" hidespinbuttons="false" />
 
 				<separator class="thin"/>
-				<label>&prefwindow.JSON_DataView.label.display_options.subtree.white_space_indentation;:</label>
-				<label><span class="note">(&prefwindow.JSON_DataView.note.display_options.subtree.white_space_indentation;)</span></label>
+				<label>&prefwindow.JSON_DataView.label.css.subtree.white_space_indentation;:</label>
+				<label><span class="note">(&prefwindow.JSON_DataView.note.css.subtree.white_space_indentation;)</span></label>
 				<textbox class="textbox number" preference="css_subtree_white_space_indentation" type="number" min="0" max="10" decimalplaces="0" hidespinbuttons="false" />
 			</vbox>
-		</groupbox>
+		</groupbox><!-- css -->
+</vbox>
+<!-- ========================================================================== -->
+				</tabpanel>
+			</tabpanels>
+		</tabbox>
 
 	</prefpane>
 

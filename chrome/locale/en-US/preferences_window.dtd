@@ -1,7 +1,11 @@
 <!ENTITY prefwindow.JSON_DataView.title.window "JSON-DataView: user preferences">
 <!ENTITY prefwindow.JSON_DataView.title.pane "General Options">
 
-<!-- ==================== "syntax_highlighter" ================================ -->
+<!ENTITY prefwindow.JSON_DataView.tab.general "General Settings">
+<!ENTITY prefwindow.JSON_DataView.tab.display_data "Display: Data Values">
+<!ENTITY prefwindow.JSON_DataView.tab.display_styles "Display: Styles">
+
+<!-- ============== "General Settings" :: "syntax_highlighter" ================ -->
 
 <!ENTITY prefwindow.JSON_DataView.heading.syntax_highlighter "Syntax Highlights">
 
@@ -59,21 +63,38 @@
 <!ENTITY prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.xcode "xcode">
 <!ENTITY prefwindow.JSON_DataView.menuitem.syntax_highlighter.theme.zenburn "zenburn">
 
-<!-- ==================== "optional_features" ================================ -->
+<!-- ============== "General Settings" :: "optional_features" ================= -->
 
 <!ENTITY prefwindow.JSON_DataView.heading.optional_features "Optional Features">
 
 <!ENTITY prefwindow.JSON_DataView.label.optional_features.big_number "Use non-native JSON parser to support numbers that are too large to represent using primitive JavaScript data types">
 <!ENTITY prefwindow.JSON_DataView.label.optional_features.debug_parser_errors "Display JSON syntax error when encountered by the JSON parser">
 
-<!-- ==================== "display_options" =================================== -->
+<!-- ============== "Display: Data Values" :: "value_filters" ================= -->
 
-<!ENTITY prefwindow.JSON_DataView.heading.display_options "Display Options">
+<!ENTITY prefwindow.JSON_DataView.heading.value_filters.string "Strings">
 
-<!ENTITY prefwindow.JSON_DataView.label.display_options.tree.font_family "font-family">
-<!ENTITY prefwindow.JSON_DataView.label.display_options.tree.font_size "font-size (px)">
-<!ENTITY prefwindow.JSON_DataView.label.display_options.tree.line_height "line-height (em)">
-<!ENTITY prefwindow.JSON_DataView.label.display_options.tree.padding "padding (em) around the body">
-<!ENTITY prefwindow.JSON_DataView.label.display_options.subtree.white_space_indentation "width (em) of indentation for expanded children">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.replace.newline "replace (\n) newline with HTML: &lt;br&gt; tag">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.replace.tab "replace (\t) tab with 4 spaces">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.replace.url "replace urls with HTML: &lt;a&gt; tag">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.back_slash "escape (\ -&gt; \\) back-slash">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.forward_slash "escape (/ -&gt; \/) forward-slash">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.double_quote "escape (&quot; -&gt; \&quot;) double quote">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.carriage_return "escape (not visible -&gt; \r) carriage return">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.line_feed "escape (not visible -&gt; \n) line feed">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.tab "escape (not visible -&gt; \t) tab">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.form_feed "escape (not visible -&gt; \f) form feed">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.backspace "escape (not visible -&gt; \b) backspace">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.unicode_characters "escape (unicode representation -&gt; \uNNNN) non-ascii characters">
 
-<!ENTITY prefwindow.JSON_DataView.note.display_options.subtree.white_space_indentation "note: 1.5em is added to this value- to ensure there is sufficient space to display expand/collapse buttons">
+<!-- ============== "Display: Styles" :: "css" ================================ -->
+
+<!ENTITY prefwindow.JSON_DataView.heading.css "CSS">
+
+<!ENTITY prefwindow.JSON_DataView.label.css.tree.font_family "font-family">
+<!ENTITY prefwindow.JSON_DataView.label.css.tree.font_size "font-size (px)">
+<!ENTITY prefwindow.JSON_DataView.label.css.tree.line_height "line-height (em)">
+<!ENTITY prefwindow.JSON_DataView.label.css.tree.padding "padding (em) around the body">
+<!ENTITY prefwindow.JSON_DataView.label.css.subtree.white_space_indentation "width (em) of indentation for expanded children">
+
+<!ENTITY prefwindow.JSON_DataView.note.css.subtree.white_space_indentation "note: 1.5em is added to this value- to ensure there is sufficient space to display expand/collapse buttons">
