@@ -330,7 +330,7 @@ var jsonTreeViewer = (function() {
 				(function(){
 					var search_pattern, pad, callback;
 
-					search_pattern = /[\x00-\x1f\x7f-\xff]/gm;
+					search_pattern = /[\u007f-\uffff]/gm;
 					pad = function(num, size){
 						return (
 							(num.length < size)? pad("0" + num, size) : num
