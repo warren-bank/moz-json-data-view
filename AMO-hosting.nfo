@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 
 https://addons.mozilla.org/en-us/firefox/addon/json-dataview/
-https://addons.mozilla.org/en-US/firefox/addon/json-dataview/versions/1.14
-https://addons.mozilla.org/firefox/downloads/file/293776/json_dataview-1.14-fx.xpi
+https://addons.mozilla.org/en-US/firefox/addon/json-dataview/versions/1.15
+https://addons.mozilla.org/firefox/downloads/file/293798/json_dataview-1.15-fx.xpi
 
-https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.14
-https://github.com/warren-bank/moz-json-data-view/releases/download/v1.14/JSON-DataView.xpi
+https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.15
+https://github.com/warren-bank/moz-json-data-view/releases/download/v1.15/JSON-DataView.xpi
 
 release date       : January 19, 2015
-size               :  151.9 kB
+size               :  152.9 kB
 compatibility      : Firefox 4.0 and later
 
 ------------------------------------------------------------------------------- Basic Information:
@@ -182,8 +182,8 @@ This add-on will modify the display of all server responses (or local files) tha
         <li><code>[false]</code> escape (<code>/</code> &#8594; <code>\/</code>) forward-slash
         <li><code>[true]</code>&nbsp; escape (<code>"</code> &#8594; <code>\"</code>) double quote
         <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\r</code>) carriage return
-        <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\n</code>) line feed
-        <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\t</code>) tab
+        <li><code>[true]</code>&nbsp; escape (white-space &#8594; <code>\n</code>) line feed
+        <li><code>[true]</code>&nbsp; escape (white-space &#8594; <code>\t</code>) tab
         <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\f</code>) form feed
         <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\b</code>) backspace
         <li><code>[false]</code> escape (unicode representation &#8594; <code>\uNNNN</code>) non-ascii characters</ul></blockquote></ul>

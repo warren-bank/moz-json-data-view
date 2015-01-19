@@ -178,8 +178,8 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
       >* `[false]` escape (`/` &#8594; `\/`) forward-slash
       >* `[true]`&nbsp; escape (`"` &#8594; `\"`) double quote
       >* `[true]`&nbsp; escape (not visible &#8594; `\r`) carriage return
-      >* `[true]`&nbsp; escape (not visible &#8594; `\n`) line feed
-      >* `[true]`&nbsp; escape (not visible &#8594; `\t`) tab
+      >* `[true]`&nbsp; escape (white-space &#8594; `\n`) line feed
+      >* `[true]`&nbsp; escape (white-space &#8594; `\t`) tab
       >* `[true]`&nbsp; escape (not visible &#8594; `\f`) form feed
       >* `[true]`&nbsp; escape (not visible &#8594; `\b`) backspace
       >* `[false]` escape (unicode representation &#8594; `\uNNNN`) non-ascii characters
