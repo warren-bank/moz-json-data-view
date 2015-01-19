@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 
 https://addons.mozilla.org/en-us/firefox/addon/json-dataview/
-https://addons.mozilla.org/en-us/firefox/addon/json-dataview/versions/1.12
-https://addons.mozilla.org/firefox/downloads/file/290068/json_dataview-1.12-fx.xpi
+https://addons.mozilla.org/en-US/firefox/addon/json-dataview/versions/1.14
+https://addons.mozilla.org/firefox/downloads/file/293776/json_dataview-1.14-fx.xpi
 
-https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.12
-https://github.com/warren-bank/moz-json-data-view/releases/download/v1.12/JSON-DataView.xpi
+https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.14
+https://github.com/warren-bank/moz-json-data-view/releases/download/v1.14/JSON-DataView.xpi
 
-release date       : December 24, 2014
-size               :  272.1 kB
+release date       : January 19, 2015
+size               :  151.9 kB
 compatibility      : Firefox 4.0 and later
 
 ------------------------------------------------------------------------------- Basic Information:
@@ -21,14 +21,38 @@ tags               : data, javascript, javascript object notation, json, jsonp, 
 add-on icon        : ./chrome/skin/logo-64x64.png
 screenshots        : https://github.com/warren-bank/moz-json-data-view/raw/screenshots/01.png
 ------------------------------------------------------------------------------- Add-on Details: description
+<blockquote>&nbsp;</blockquote>
+<b>Usage</b>
+
+<ul>
+  <li>the <code>expand</code> (+) and <code>collapse</code> (-) buttons are sensitive to mouse click<ul>
+    <li>without any modifier key:
+        the action is applied to the selected tree node
+    <li>while pressing any of the following modifier keys: <code>Ctrl</code> or <code>Shift</code>
+        the action is applied to the selected tree node,
+        as well as recursively to all nodes that descend from the selected tree node</ul></ul>
+
 <b>Summary</b>
 
 <ul>
   <li><a href="https://github.com/summerstyle/jsonTreeViewer">jsonTreeViewer</a> served as a solid starting point for creating a DOM structure from JSON data
+    <blockquote><ul>
+      <li>the original web application is very well coded
+      <li>its core logic has been separated and abstracted into a library
+      <li>enhancements have been gradually added over time</ul></blockquote>
   <li><a href="https://github.com/isagalaev/highlight.js">highlight.js</a> is used to provide syntax highlighting to the DOM structure
+    <blockquote><ul>
+      <li>specifically, only its css files are used</ul></blockquote>
   <li><a href="https://github.com/beautify-web/js-beautify">js-beautify</a> is used to add whitespace for readability when syntax highlighting is turned off
-  <li><a href="https://github.com/MikeMcl/bignumber.js">bignumber.js</a> and <a href="https://github.com/sidorares/json-bigint">json-bigint</a> are used to provide an alternate JSON parser that can retain the fidelity of integers that are too large to represent using the primitive JavaScript data type: <code>number</code>
-    <blockquote>( language limitations are described in detail @ <a href="https://github.com/warren-bank/moz-json-data-view/issues/4">issue #4</a> )</ul></blockquote>
+    <blockquote><ul>
+      <li>the JSON text is piped through this library and displayed within a <code>&lt;pre&gt;</code> tag</ul></blockquote>
+  <li><a href="https://github.com/MikeMcl/bignumber.js">bignumber.js</a> and <a href="https://github.com/sidorares/json-bigint">json-bigint</a> are used to provide an alternate JSON parser
+    <blockquote><ul>
+      <li>this parser provides a way to work around the potential pitfall that:<ul>
+        <li>JSON data can specify numeric values that are arbitrarily large
+        <li>the primitive JavaScript <code>number</code> data type has constraints on the possible range of values that it can hold
+            <blockquote>( language limitations are described in detail @ <a href="https://github.com/warren-bank/moz-json-data-view/issues/4">issue #4</a> )</blockquote></ul>
+      <li>it allows the add-on the ability to retain this fidelity</ul></blockquote></ul>
 
 <b>Detection methodology</b>
 
@@ -104,61 +128,96 @@ This add-on will modify the display of all server responses (or local files) tha
         <li><a href="http://httparchive.webpagetest.org/export.php?test=140801_0_8JH&amp;run=1&amp;cached=0&amp;pretty=1#No-HTTP-Archive-Viewer/JSON-DataView">http://httparchive.webpagetest.org/export.php?test=140801_0_8JH&amp;run=1&amp;cached=0&amp;pretty=1#No-HTTP-Archive-Viewer/JSON-DataView</a></ul>
       <li>note that:<ul>
         <li>order of the <code>control tokens</code> doesn't matter
-        <li>they are both case insensitive</ul></ul></ul></ul>
+        <li>they are both case insensitive
+        <li>when the HTTP response includes a <code>content-disposition</code> header:
+          <blockquote><ul>
+            <li>the browser will prompt to save the JSON data, rather than allowing it to be displayed in-browser by the add-on
+            <li>the most general-purpose work around is to employ an additional add-on that is better suited to intercept and conditionally modify HTTP headers.
+
+                recommendations:<ul>
+                <li><a href="https://addons.mozilla.org/en-us/firefox/addon/open-in-browser/">Open In Browser</a>
+                    adds additional options to the browser's <i>"save as"</i> dialog window, which allows the user to choose how to proceed with each individual response
+                <li><a href="https://addons.mozilla.org/en-US/firefox/addon/moz-rewrite-js/">moz-rewrite</a>
+                    provides a rules engine for conditionally modifying HTTP headers, which allows the user to add a <a href="https://github.com/warren-bank/moz-rewrite/blob/js/data/recipe-book/response/disable%20CSP.js">properly configured rule</a> that will automatically rewrite the particular response headers when JSON data is received</ul></ul></blockquote></ul></ul></ul></ul>
 
 <b>User Preferences</b>
 
 <ul>
-  <li>Syntax Highlights:<ul>
-    <li>Enabled
-      <blockquote>default: on</blockquote>
+  <li>General Settings<ul>
+    <li>Syntax Highlights
+      <blockquote><ul>
+        <li>Enable
+          <blockquote>default: <code>true</code></blockquote>
 
-      on/off toggle<ul>
-      <li>on:
-        Builds an HTML DOM structure that supports presenting the data within a collapsible tree.
-      <li>off:
-        Filters the JSON data through <code>js-beautify</code>, and outputs into a <code>&lt;pre&gt;</code> DOM element.</ul>
-    <li>Expand All Nodes
-      <blockquote>default: false</blockquote>
+          <ul>
+          <li>true:
+              builds an HTML DOM structure that supports presenting the data within a collapsible tree
+          <li>false:
+              filters the JSON data through <code>js-beautify</code>, and outputs into a <code>&lt;pre&gt;</code> DOM element</ul>
+        <li>Expand All Nodes
+          <blockquote>default: <code>false</code></blockquote>
 
-      initialize all collapsible tree nodes to an expanded state (during page load)?
-    <li>Theme
-      <blockquote>default: 'solarized_dark'</blockquote>
+          <ul>
+          <li>true:
+              during page load, initialize all collapsible tree nodes to an expanded state
+          <li>false:
+              during page load, initialize only the root tree node to an expanded state</ul>
+        <li>Theme
+          <blockquote>default: <code>'solarized_dark'</code></blockquote>
 
-      choice of color scheme.
-      options consist of those provided by <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles">highlight.js</a></ul>
-  <li>Optional Features:<ul>
-    <li>Use non-native JSON parser to support numbers that are too large to represent using primitive JavaScript data types
-      <blockquote>default: true</blockquote>
-    <li>Display JSON syntax error when encountered by the JSON parser
-      <blockquote>default: true</blockquote></ul>
-  <li>Display Options:<ul>
-    <li>font-family
-      <blockquote>default: ''</blockquote>
+          options consist of those provided by <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles">highlight.js</a></ul></blockquote>
+    <li>Optional Features
+      <blockquote><ul>
+        <li>Use non-native JSON parser to support numbers that are too large to represent using primitive JavaScript data types
+          <blockquote>default: <code>true</code></blockquote>
+        <li>Display JSON syntax error when encountered by the JSON parser
+          <blockquote>default: <code>true</code></blockquote></ul></blockquote></ul>
+  <li>Display: Data Values<ul>
+    <li>Strings
+      <blockquote><ul>
+        <li><code>[false]</code> replace (<code>\n</code>) newline with HTML: <code>&lt;br&gt;</code> tag
+        <li><code>[false]</code> replace (<code>\t</code>) tab with 4 spaces
+        <li><code>[true]</code>&nbsp; replace urls with HTML: <code>&lt;a&gt;</code> tag
+        <li><code>[true]</code>&nbsp; escape (<code>\</code> &#8594; <code>\\</code>) back-slash
+        <li><code>[false]</code> escape (<code>/</code> &#8594; <code>\/</code>) forward-slash
+        <li><code>[true]</code>&nbsp; escape (<code>"</code> &#8594; <code>\"</code>) double quote
+        <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\r</code>) carriage return
+        <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\n</code>) line feed
+        <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\t</code>) tab
+        <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\f</code>) form feed
+        <li><code>[true]</code>&nbsp; escape (not visible &#8594; <code>\b</code>) backspace
+        <li><code>[false]</code> escape (unicode representation &#8594; <code>\uNNNN</code>) non-ascii characters</ul></blockquote></ul>
+  <li>Display: Styles<ul>
+    <li>CSS
+      <blockquote><ul>
+        <li>font-family
+          <blockquote>default: <code>''</code></blockquote>
 
-      the (internal) stylesheet assigns a default value.
-      this preference is optional;
-      if assigned a value, it will override the stylesheet.
-    <li>font-size
-      <blockquote>default: 13</blockquote>
+          the (internal) stylesheet assigns a default value.
+          this preference is optional;
+          if assigned a value, it will override the stylesheet.
+        <li>font-size
+          <blockquote>default: <code>13</code></blockquote>
 
-      units: px
-    <li>line-height
-      <blockquote>default: 2</blockquote>
+          units: <code>px</code>
+        <li>line-height
+          <blockquote>default: <code>2</code></blockquote>
 
-      units: em
-    <li>padding around the <code>&lt;body&gt;</code>
-      <blockquote>default: 1</blockquote>
+          units: <code>em</code>
+        <li>padding around the <code>&lt;body&gt;</code>
+          <blockquote>default: <code>1</code></blockquote>
 
-      units: em
-    <li>width of indentation for expanded children
-      <blockquote>default: 1</blockquote>
+          units: <code>em</code>
+        <li>width of indentation for expanded children
+          <blockquote>default: <code>1</code></blockquote>
 
-      units: em
+          units: <code>em</code>
 
-      <strong>NOTE:</strong>
-      1.5em is ADDED to the value specified through this setting.
-      This is the width required to ensure the expand/collapse button can be properly displayed.</ul></ul>
+          <blockquote>
+            <strong>NOTE:</strong>
+            <code>1.5em</code> is ADDED to the value specified through this setting.
+            This is the width required to ensure the expand/collapse button can be properly displayed.
+          </blockquote></ul></blockquote></ul></ul>
 ------------------------------------------------------------------------------- Add-on Details: (continued)
 default locale     : English (US)
 homepage           : https://github.com/warren-bank/moz-json-data-view

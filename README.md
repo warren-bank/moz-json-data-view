@@ -5,18 +5,35 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
 
 ![JSONP response in Google data feed](https://raw.githubusercontent.com/warren-bank/moz-json-data-view/screenshots/01.png)
 
+## Usage
+
+  * the `expand` (+) and `collapse` (-) buttons are sensitive to mouse click
+    * without any modifier key:<br>
+      the action is applied to the selected tree node
+    * while pressing any of the following modifier keys: `Ctrl` or `Shift`<br>
+      the action is applied to the selected tree node,<br>
+      as well as recursively to all nodes that descend from the selected tree node
+
 ## Summary
 
   * [jsonTreeViewer](https://github.com/summerstyle/jsonTreeViewer) served as a solid starting point for creating a DOM structure from JSON data
-
-      > nicely coded
+    >* the original web application is very well coded
+    >* its core logic has been separated and abstracted into a library
+    >* enhancements have been gradually added over time
 
   * [highlight.js](https://github.com/isagalaev/highlight.js) is used to provide syntax highlighting to the DOM structure
+    >* specifically, only its css files are used
 
   * [js-beautify](https://github.com/beautify-web/js-beautify) is used to add whitespace for readability when syntax highlighting is turned off
+    >* the JSON text is piped through this library and displayed within a `<pre>` tag
 
-  * [bignumber.js](https://github.com/MikeMcl/bignumber.js) and [json-bigint](https://github.com/sidorares/json-bigint) are used to provide an alternate JSON parser that can retain the fidelity of integers that are too large to represent using the primitive JavaScript data type: `number`<br>
-    <sub>( language limitations are described in detail @ [issue #4](https://github.com/warren-bank/moz-json-data-view/issues/4) )</sub>
+  * [bignumber.js](https://github.com/MikeMcl/bignumber.js) and [json-bigint](https://github.com/sidorares/json-bigint) are used to provide an alternate JSON parser
+    >* this parser provides a way to work around the potential pitfall that:
+    >  * JSON data can specify numeric values that are arbitrarily large
+    >  * the primitive JavaScript `number` data type has constraints on the possible range of values that it can hold<br>
+    >    <sub>( language limitations are described in detail @ [issue #4](https://github.com/warren-bank/moz-json-data-view/issues/4) )</sub>
+    >
+    >* it allows the add-on the ability to retain this fidelity
 
 ## Detection methodology
 
@@ -106,76 +123,101 @@ Firefox add-on that displays JSON data in a collapsible tree structure with synt
         * note that:
             * order of the `control tokens` doesn't matter
             * they are both case insensitive
-
               > the pretty capitalization is just for the README
+
+            * when the HTTP response includes a `content-disposition` header:
+              >* the browser will prompt to save the JSON data, rather than allowing it to be displayed in-browser by the add-on
+              >* the most general-purpose work around is to employ an additional add-on that is better suited to intercept and conditionally modify HTTP headers.<br><br>
+                 recommendations:
+                   * [Open In Browser](https://addons.mozilla.org/en-us/firefox/addon/open-in-browser/)<br>adds additional options to the browser's _"save as"_ dialog window, which allows the user to choose how to proceed with each individual response
+                   * [moz-rewrite](https://addons.mozilla.org/en-US/firefox/addon/moz-rewrite-js/)<br>provides a rules engine for conditionally modifying HTTP headers, which allows the user to add a [properly configured rule](https://github.com/warren-bank/moz-rewrite/blob/js/data/recipe-book/response/disable%20CSP.js) that will automatically rewrite the particular response headers when JSON data is received
 
 ## User Preferences:
 
-  * syntax highlighting:
-    * on/off toggle
+  * General Settings
 
-      on: Builds an HTML DOM structure that supports presenting the data within a collapsible tree.<br>
-      off: Filters the JSON data through `js-beautify`, and outputs into a `<pre>` DOM element.
+    * Syntax Highlights
 
-      > default: on
+      >* Enable
+      >  > default: `true`
+      >
+      >  * true:<br>
+      >    builds an HTML DOM structure that supports presenting the data within a collapsible tree
+      >  * false:<br>
+      >    filters the JSON data through `js-beautify`, and outputs into a `<pre>` DOM element
+      >
+      >* Expand All Nodes
+      >  > default: `false`
+      >
+      >  * true:<br>
+      >    during page load, initialize all collapsible tree nodes to an expanded state
+      >  * false:<br>
+      >    during page load, initialize only the root tree node to an expanded state
+      >
+      >* Theme
+      >  > default: `'solarized_dark'`
+      >
+      >  options consist of those provided by [highlight.js](https://github.com/isagalaev/highlight.js/tree/master/src/styles)
 
-    * expand all nodes
+    * Optional Features
 
-      initialize all collapsible tree nodes to an expanded state (during page load)?
+      >* Use non-native JSON parser to support numbers that are too large to represent using primitive JavaScript data types
+      >  > default: `true`
+      >
+      >* Display JSON syntax error when encountered by the JSON parser
+      >  > default: `true`
 
-      > default: false
+  * Display: Data Values
 
-    * choice of color scheme
+    * Strings
 
-      options consist of those provided by [highlight.js](https://github.com/isagalaev/highlight.js/tree/master/src/styles)
+      >* `[false]` replace (`\n`) newline with HTML: `<br>` tag
+      >* `[false]` replace (`\t`) tab with 4 spaces
+      >* `[true]`&nbsp; replace urls with HTML: `<a>` tag
+      >* `[true]`&nbsp; escape (`\` &#8594; `\\`) back-slash
+      >* `[false]` escape (`/` &#8594; `\/`) forward-slash
+      >* `[true]`&nbsp; escape (`"` &#8594; `\"`) double quote
+      >* `[true]`&nbsp; escape (not visible &#8594; `\r`) carriage return
+      >* `[true]`&nbsp; escape (not visible &#8594; `\n`) line feed
+      >* `[true]`&nbsp; escape (not visible &#8594; `\t`) tab
+      >* `[true]`&nbsp; escape (not visible &#8594; `\f`) form feed
+      >* `[true]`&nbsp; escape (not visible &#8594; `\b`) backspace
+      >* `[false]` escape (unicode representation &#8594; `\uNNNN`) non-ascii characters
 
-      > default: 'solarized_dark'
+  * Display: Styles
 
-  * optional features:
-    * use non-native JSON parser to support numbers that are too large to represent using primitive JavaScript data types
+    * CSS
 
-      > default: true
-
-    * display JSON syntax error when encountered by the JSON parser
-
-      > default: true
-
-  * css customizations:
-    * font-family
-
-      the (internal) stylesheet assigns a default value.<br>
-      this preference is optional;<br>
-      if assigned a value, it will override the stylesheet.
-
-      > default: ''
-
-    * font-size
-
-      units: px
-
-      > default: 13
-
-    * line-height
-
-      units: em
-
-      > default: 2
-
-    * padding around the `<body>`
-
-      units: em
-
-      > default: 1
-
-    * width of indentation for expanded children
-
-      units: em
-
-      > default: 1
-
-      > **NOTE:**<br>
-      > 1.5em is ADDED to the value specified through this setting.<br>
-      > This is the width required to ensure the expand/collapse button can be properly displayed.
+      >* font-family
+      >  > default: `''`
+      >
+      >  the (internal) stylesheet assigns a default value.<br>
+      >  this preference is optional;<br>
+      >  if assigned a value, it will override the stylesheet.
+      >
+      >* font-size
+      >  > default: `13`
+      >
+      >  units: `px`
+      >
+      >* line-height
+      >  > default: `2`
+      >
+      >  units: `em`
+      >
+      >* padding around the `<body>`
+      >  > default: `1`
+      >
+      >  units: `em`
+      >
+      >* width of indentation for expanded children
+      >  > default: `1`
+      >
+      >  units: `em`
+      >
+      >  > **NOTE:**<br>
+      >  > `1.5em` is ADDED to the value specified through this setting.<br>
+      >  > This is the width required to ensure the expand/collapse button can be properly displayed.
 
 ## Examples
 
