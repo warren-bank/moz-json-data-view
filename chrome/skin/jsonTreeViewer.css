@@ -73,8 +73,7 @@ ul#tree .value {
 
 ul#tree .string > .value {
 	/* ---------------------
-	 * http://stackoverflow.com/questions/8114367/how-to-wrap-lines-in-an-inline-block-with-css
-	 * http://jsfiddle.net/thirtydot/CatuS/
+	 * http://colinaarts.com/articles/the-magic-of-overflow-hidden/#making-room-for-floats-testcase-2
 	 * ---------------------
 	 */
 	display:				block;
