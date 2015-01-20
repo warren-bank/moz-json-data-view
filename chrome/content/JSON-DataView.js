@@ -153,6 +153,12 @@ if (!JSON_DataView) {
 						ltrim_pattern('typeof\\s+' + is_jsonp + '\\s+===\\s+([\'"])function\\1\\s+&&\\s+');
 						ltrim_pattern(is_jsonp + '\\s+&&\\s+');
 
+						// add support for additional forms of jsonp callback validation:
+						//   (typeof cb === 'function') && cb(json);
+						//   (typeof cb==='function') && cb(json);
+						//   (typeof cb==='function')&&cb(json);
+						ltrim_pattern('\\(\\s*typeof\\s+' + is_jsonp + '\\s*===\\s*([\'"])function\\1\\s*\\)\\s*&&\\s*');
+
 						return result;
 					};
 
