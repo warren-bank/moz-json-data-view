@@ -81,8 +81,8 @@
 <!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.forward_slash "escape (/ -&gt; \/) forward-slash">
 <!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.double_quote "escape (&quot; -&gt; \&quot;) double quote">
 <!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.carriage_return "escape (not visible -&gt; \r) carriage return">
-<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.line_feed "escape (not visible -&gt; \n) line feed">
-<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.tab "escape (not visible -&gt; \t) tab">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.line_feed "escape (white-space -&gt; \n) line feed">
+<!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.tab "escape (white-space -&gt; \t) tab">
 <!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.form_feed "escape (not visible -&gt; \f) form feed">
 <!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.backspace "escape (not visible -&gt; \b) backspace">
 <!ENTITY prefwindow.JSON_DataView.label.value_filters.string.escape.unicode_characters "escape (unicode representation -&gt; \uNNNN) non-ascii characters">
