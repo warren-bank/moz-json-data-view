@@ -20,32 +20,16 @@
  * --------------------------------------------------------
  */
 
-window.addEventListener('load', function load(event) {
-	window.removeEventListener('load', load, false);
-	JSON_DataView.init();
-}, false);
-
 if (!JSON_DataView) {
 	var JSON_DataView = {
-
-		prefs: null,
-		load_prefs: function(){
-			this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
-							.getService(Components.interfaces.nsIPrefService)
-							.getBranch("extensions.JSON_DataView.");
-		},
-
-		init: function() {
-			var appcontent = document.getElementById('appcontent');
-			if (appcontent){
-				this.load_prefs();
-				appcontent.addEventListener('DOMContentLoaded', this.onPageLoad, true);
-			}
-		},
-
-		onPageLoad: function(aEvent) {
+		prefs: (
+					Components.classes["@mozilla.org/preferences-service;1"]
+						.getService(Components.interfaces.nsIPrefService)
+						.getBranch("extensions.JSON_DataView.")
+		),
+		onPageLoad: function(message) {
 			var self				= JSON_DataView;
-			var document			= aEvent.originalTarget;
+			var document			= message.data;
 			var is_json				= false;
 			var is_jsonp			= false;
 			var head, body, json_text, parsed_json_data, $parser_syntax_error;
@@ -578,4 +562,10 @@ if (!JSON_DataView) {
 
 		}
 	};
+}
+
+if (!globalMM) {
+	var globalMM = Cc["@mozilla.org/globalmessagemanager;1"].getService(Ci.nsIMessageListenerManager);
+	globalMM.loadFrameScript("chrome://JSON-DataView/content/frame-script.js", true);
+	globalMM.addMessageListener("JSON-DataView-onPageLoad", JSON_DataView.onPageLoad);
 }
