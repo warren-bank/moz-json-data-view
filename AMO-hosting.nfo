@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 
 https://addons.mozilla.org/en-us/firefox/addon/json-dataview/
-https://addons.mozilla.org/en-US/firefox/addon/json-dataview/versions/1.15
-https://addons.mozilla.org/firefox/downloads/file/293798/json_dataview-1.15-fx.xpi
+https://addons.mozilla.org/en-US/firefox/addon/json-dataview/versions/1.18
+https://addons.mozilla.org/firefox/downloads/file/293948/json_dataview-1.18-fx.xpi
 
-https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.15
-https://github.com/warren-bank/moz-json-data-view/releases/download/v1.15/JSON-DataView.xpi
+https://github.com/warren-bank/moz-json-data-view/releases/tag/v1.18
+https://github.com/warren-bank/moz-json-data-view/releases/download/v1.18/JSON-DataView.xpi
 
-release date       : January 19, 2015
-size               :  152.9 kB
+release date       : January 20, 2015
+size               : 153.1 kB
 compatibility      : Firefox 4.0 and later
 
 ------------------------------------------------------------------------------- Basic Information:
@@ -218,6 +218,19 @@ This add-on will modify the display of all server responses (or local files) tha
             <code>1.5em</code> is ADDED to the value specified through this setting.
             This is the width required to ensure the expand/collapse button can be properly displayed.
           </blockquote></ul></blockquote></ul></ul>
+
+<b>Experimental Features</b>
+
+<ul>
+  <li>support for multi-process (Electrolysis, e10s)<ul>
+    <li><a href="https://github.com/warren-bank/moz-json-data-view/releases/tag/e10s%2Fv2.0">(e10s/v2.0) release notes</a>
+    <li><a href="https://github.com/warren-bank/moz-json-data-view/releases/download/e10s%2Fv2.0/JSON-DataView.xpi">(e10s/v2.0) .xpi add-on installer</a>
+    <li>tested in: FF 40.0a1 (nightly)
+    <li>comments:<ul>
+      <li>multi-process is an experimental FF feature, which is currently enabled (by default) in nightly builds
+      <li>this release of the add-on (branch: 'e10s', versions: 2.*) works properly in the current nightly build, but it hasn't been regression tested in stable builds
+      <li>the current release of the add-on (branch: 'master', versions: 1.*) is known to work in all stable builds of FF, from current (37.0.2) to quite old (4.0)
+      <li>as such, this release should be considered a "beta".. intended for testers and early adopters</ul></ul></ul>
 ------------------------------------------------------------------------------- Add-on Details: (continued)
 default locale     : English (US)
 homepage           : https://github.com/warren-bank/moz-json-data-view
