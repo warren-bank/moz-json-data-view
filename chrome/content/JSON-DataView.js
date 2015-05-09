@@ -29,7 +29,7 @@ if (!JSON_DataView) {
 		),
 		onPageLoad: function(message) {
 			var self				= JSON_DataView;
-			var document			= message.data;
+			var document			= message.objects.document;
 			var is_json				= false;
 			var is_jsonp			= false;
 			var head, body, json_text, parsed_json_data, $parser_syntax_error;

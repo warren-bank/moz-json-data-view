@@ -57,7 +57,6 @@ window.addEventListener('load', function(){
     var appcontent = document.getElementById('appcontent');
     appcontent.addEventListener('DOMContentLoaded', onPageLoad, true);
 }, false);
-
 var onPageLoad = function(aEvent){
     var document = aEvent.originalTarget;
 }
@@ -81,5 +80,25 @@ var onPageLoad = function(aEvent){
 #### conclusion:
 
   * apparently, the assumption was wrong; a `document` element cannot be passed.
+
+---------------------------------------------------------------------------------------------------
+
+#### v2.0 methodology (#002):
+
+  * RTFM (some more):
+    * https://developer.mozilla.org/en-US/Firefox/Multiprocess_Firefox/Cross_Process_Object_Wrappers
+    * https://developer.mozilla.org/en-US/Firefox/Multiprocess_Firefox/The_message_manager#Content_to_chrome
+
+  * changed the function used to pass the `document` element; now the parameter should support complex objects that cannot be serialized into JSON
+
+#### result:
+
+  * it works!
+
+#### conclusion:
+
+  * is this cheating?
+
+  * is there any performance penalty using this methodology.. whereby for every page that loads, its `document` element is passed into the `chrome` process for inspection and (conditionally) modification?
 
 ---------------------------------------------------------------------------------------------------
